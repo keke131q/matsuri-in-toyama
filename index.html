@@ -2,21 +2,21 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <!-- スマホでのピンチズームは許可しつつ、最適な初期表示を行う設定 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>誇高 MATSURI in 富山 | 未来志創プロジェクト</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;900&family=Noto+Sans+JP:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600;900&family=Noto+Sans+JP:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
         /* === Base Variables === */
         :root {
-            --primary-color: #0A1630; /* より深く品格のある藍色 */
-            --accent-color: #C7A03C; /* 落ち着いた上質な黄金色 */
+            --primary-color: #0A1630; 
+            --accent-color: #C7A03C; 
             --accent-light: rgba(199, 160, 60, 0.1);
+            --danger-color: #A33333;
             --text-main: #333333;
             --text-light: #555555;
-            --bg-paper: #F9F8F6; /* 真っ白ではない、温かみのある和紙のような背景色 */
+            --bg-paper: #F9F8F6; 
             --bg-dark: #050a17;
         }
 
@@ -24,7 +24,6 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            /* スマホでのタップ時のハイライトを消してアプリのような操作感に */
             -webkit-tap-highlight-color: transparent; 
         }
 
@@ -32,20 +31,10 @@
             font-family: 'Noto Serif JP', serif;
             color: var(--text-main);
             background-color: var(--bg-paper);
-            line-height: 2.0; /* スマホで読みやすい少し広めの行間 */
+            line-height: 2.0;
             font-size: 16px;
             overflow-x: hidden;
-            /* フローティングボタン用の余白 */
             padding-bottom: 90px; 
-        }
-
-        /* 引用マークのデザイン */
-        .cite-mark {
-            font-size: 0.6em;
-            vertical-align: super;
-            opacity: 0.3;
-            font-family: 'Noto Sans JP', sans-serif;
-            margin-left: 2px;
         }
 
         h1, h2, h3 {
@@ -65,10 +54,9 @@
         /* === Animations === */
         .fade-in {
             opacity: 0;
-            transform: translateY(20px); /* モバイルは移動距離を控えめにし画面酔いを防止 */
+            transform: translateY(20px);
             transition: opacity 1s cubic-bezier(0.25, 1, 0.5, 1), transform 1s cubic-bezier(0.25, 1, 0.5, 1);
         }
-
         .fade-in.visible {
             opacity: 1;
             transform: translateY(0);
@@ -77,7 +65,6 @@
         /* === Hero Section === */
         .hero {
             position: relative;
-            /* iOS Safariのバーを考慮した最新の高さ指定 */
             height: 100svh; 
             min-height: 600px;
             background: linear-gradient(135deg, var(--bg-dark) 0%, var(--primary-color) 100%);
@@ -88,7 +75,6 @@
             color: white;
             overflow: hidden;
         }
-
         .hero::after {
             content: '';
             position: absolute;
@@ -96,19 +82,16 @@
             background: radial-gradient(circle at center, var(--accent-light) 0%, transparent 80%);
             animation: breathe 6s ease-in-out infinite alternate;
         }
-
         @keyframes breathe {
             0% { opacity: 0.3; transform: scale(1); }
             100% { opacity: 0.8; transform: scale(1.1); }
         }
-
         .hero-content {
             position: relative;
             z-index: 2;
             padding: 2rem 1rem;
             width: 100%;
         }
-
         .hero-subtitle {
             font-size: 1rem;
             color: var(--accent-color);
@@ -116,15 +99,13 @@
             letter-spacing: 0.25em;
             font-weight: 600;
         }
-
         .hero-title {
-            font-size: 2.2rem; /* スマホに最適化されたサイズ */
+            font-size: 2.2rem;
             font-weight: 900;
             margin-bottom: 2.5rem;
             line-height: 1.3;
             text-shadow: 0 4px 15px rgba(0,0,0,0.6);
         }
-
         .hero-date {
             font-size: 1.2rem;
             border: 1px solid var(--accent-color);
@@ -143,19 +124,16 @@
             text-align: center;
             position: relative;
         }
-
         .question-text {
             font-size: 1.4rem;
             line-height: 2.2;
             color: #fff;
         }
-
         .gold-text {
             color: var(--accent-color);
             font-weight: 900;
             font-size: 1.2em;
         }
-
         .question-sub {
             margin-top: 2rem;
             color: rgba(255,255,255,0.7);
@@ -163,21 +141,20 @@
             margin-bottom: 0;
         }
 
-        /* === Message Section === */
-        .message-section {
+        /* === Infographic (現状の見える化) Section === */
+        .infographic-section {
             padding: 5rem 1.5rem;
-            max-width: 800px;
-            margin: 0 auto;
+            background-color: #fff;
         }
-
-        .message-title {
+        .section-header {
             text-align: center;
-            font-size: 1.8rem;
-            color: var(--primary-color);
             margin-bottom: 3rem;
         }
-
-        .message-title::after {
+        .section-header h2 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+        .section-header h2::after {
             content: '';
             display: block;
             width: 40px;
@@ -185,49 +162,136 @@
             background-color: var(--accent-color);
             margin: 1.5rem auto 0;
         }
-
-        .message-body p {
+        .data-card {
+            background: var(--bg-paper);
+            border-radius: 12px;
+            padding: 2rem 1.5rem;
             margin-bottom: 2rem;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+            border-top: 4px solid var(--danger-color);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
         }
-
-        .highlight-box {
-            background-color: #fff;
-            border-left: 4px solid var(--accent-color);
-            padding: 1.5rem;
-            margin: 3rem 0;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
-            border-radius: 0 8px 8px 0;
-        }
-
-        .highlight-box p {
-            margin-bottom: 0;
+        .data-title {
+            font-weight: bold;
             color: var(--primary-color);
-            font-weight: 600;
-            font-size: 1rem;
-            font-family: 'Noto Serif JP', serif;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        .data-number {
+            text-align: center;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--danger-color);
+            font-family: 'Noto Sans JP', sans-serif;
+            line-height: 1;
+            margin-bottom: 1rem;
+        }
+        .data-number span {
+            font-size: 1.2rem;
+            color: var(--text-main);
+        }
+        /* グラフ要素 */
+        .bar-chart {
+            margin-top: 1.5rem;
+        }
+        .bar-item {
+            margin-bottom: 1rem;
+        }
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-bottom: 0.3rem;
+            font-family: 'Noto Sans JP', sans-serif;
+            font-weight: bold;
+        }
+        .bar-bg {
+            height: 12px;
+            background-color: #eee;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            border-radius: 6px;
+        }
+        .fill-japan { background-color: var(--danger-color); width: 45%; }
+        .fill-other { background-color: #ccc; width: 86%; }
+        
+        .concept-box {
+            background: var(--primary-color);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .concept-box p { color: rgba(255,255,255,0.9); margin-bottom: 0; }
+        .concept-box h3 { color: var(--accent-color); margin-bottom: 1rem; font-size: 1.2rem;}
+
+        /* === Story Section (岡本の想い) === */
+        .story-section {
+            padding: 5rem 1.5rem;
+            background-color: var(--bg-paper);
+        }
+        .story-container {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .story-block {
+            margin-bottom: 3.5rem;
+        }
+        .story-block h3 {
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 1rem;
+        }
+        .quote-text {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            background: #fff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            margin: 2rem 0;
+            position: relative;
+        }
+        .quote-text::before {
+            content: '“';
+            font-size: 4rem;
+            color: var(--accent-light);
+            position: absolute;
+            top: -10px; left: 10px;
+            font-family: serif;
+            line-height: 1;
         }
 
         /* === Profile Section === */
         .profile-section {
-            background-color: #F0EFEA;
+            background-color: #E8E6DF;
             padding: 5rem 1.5rem;
         }
-
         .profile-container {
             max-width: 900px;
             margin: 0 auto;
             display: flex;
-            flex-direction: column; /* スマホでは縦積み */
+            flex-direction: column; 
             gap: 2.5rem;
         }
-
         .profile-image-wrapper {
             position: relative;
             width: 100%;
             max-width: 350px;
             margin: 0 auto;
         }
-
         .profile-image {
             width: 100%;
             aspect-ratio: 4/5;
@@ -237,7 +301,6 @@
             position: relative;
             z-index: 2;
         }
-        
         .profile-image-wrapper::after {
             content: '';
             position: absolute;
@@ -245,13 +308,11 @@
             border: 1px solid var(--accent-color);
             z-index: 1;
         }
-
         .profile-name {
             font-size: 1.8rem;
             color: var(--primary-color);
             margin-bottom: 0.5rem;
         }
-
         .profile-title {
             font-family: 'Noto Sans JP', sans-serif;
             color: var(--accent-color);
@@ -259,7 +320,6 @@
             margin-bottom: 1.5rem;
             font-size: 0.85rem;
         }
-
         .profile-text p {
             font-size: 0.9rem;
             margin-bottom: 1.2rem;
@@ -271,46 +331,39 @@
             max-width: 800px;
             margin: 0 auto;
         }
-
         .details-card {
             background: #fff;
             border-radius: 12px;
             padding: 2rem 1.5rem;
             box-shadow: 0 10px 40px rgba(0,0,0,0.04);
         }
-
         .details-table {
             width: 100%;
             border-collapse: collapse;
             font-family: 'Noto Sans JP', sans-serif;
         }
-
         .details-table th, .details-table td {
             padding: 1.2rem 0;
             border-bottom: 1px solid #eee;
-            display: block; /* スマホで縦積みにする魔法のコード */
+            display: block; 
             width: 100%;
             text-align: left;
         }
-
         .details-table th {
             color: var(--accent-color);
             font-weight: bold;
             font-size: 0.9rem;
             padding-bottom: 0.2rem;
-            border-bottom: none; /* 見出しの下線は消す */
+            border-bottom: none; 
         }
-
         .details-table td {
             padding-top: 0;
             font-size: 1rem;
             color: var(--text-main);
         }
-
         .details-table tr:last-child td {
             border-bottom: none;
         }
-
         .marche-notice {
             text-align: center;
             margin-top: 3rem;
@@ -322,19 +375,18 @@
             border-radius: 8px;
         }
 
-        /* === Bottom CTA Section (Main content area) === */
+        /* === Bottom CTA Section === */
         .cta-section {
             background: var(--primary-color);
             padding: 5rem 1.5rem 6rem;
             text-align: center;
             color: white;
         }
-
         .cta-section p {
             color: rgba(255,255,255,0.8);
         }
 
-        /* === Floating Action Button (常にスマホ下部に追従) === */
+        /* === Floating Action Button === */
         .floating-cta {
             position: fixed;
             bottom: 0;
@@ -346,10 +398,8 @@
             padding: 15px 20px;
             box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
             z-index: 999;
-            /* iPhoneのホームバー(Safe Area)対応 */
             padding-bottom: calc(15px + env(safe-area-inset-bottom));
         }
-
         .btn-gold {
             display: block;
             width: 100%;
@@ -367,9 +417,8 @@
             box-shadow: 0 4px 15px rgba(199, 160, 60, 0.4);
             transition: transform 0.2s;
         }
-
         .btn-gold:active {
-            transform: scale(0.97); /* タップした時のへこむ心地よいアニメーション */
+            transform: scale(0.97); 
         }
 
         footer {
@@ -381,7 +430,6 @@
             font-size: 0.8rem;
         }
 
-        /* === タブレット・PC向けの上書きスタイル === */
         @media (min-width: 768px) {
             body { padding-bottom: 0; }
             .hero-title { font-size: 3.5rem; }
@@ -389,26 +437,18 @@
             .profile-container { flex-direction: row; align-items: center; }
             .profile-image-wrapper { flex: 1; margin: 0; }
             .profile-text { flex: 1.5; }
-            
-            /* PCではテーブルを横並びに戻す */
             .details-table th, .details-table td {
                 display: table-cell;
                 width: auto;
                 border-bottom: 1px solid #eee;
                 padding: 1.5rem;
             }
-            .details-table th {
-                width: 25%;
-                padding-bottom: 1.5rem;
-            }
+            .details-table th { width: 25%; padding-bottom: 1.5rem; }
             .details-table td { padding-top: 1.5rem; }
-
-            /* PCではフローティングボタンを消し、コンテンツ内のボタンを見せる */
             .floating-cta { display: none; }
             .cta-section .btn-gold { display: inline-block; padding: 1.2rem 4rem; margin-top: 2rem; }
         }
         @media (max-width: 767px) {
-            /* スマホではコンテンツ内のボタンは不要（追従ボタンがあるため） */
             .cta-section .btn-gold { display: none; }
         }
     </style>
@@ -419,8 +459,8 @@
     <section class="hero">
         <div class="hero-content fade-in">
             <div class="hero-subtitle">誇高 MATSURI in 富山</div>
-            <h1 class="hero-title">富山の誇りを、<br>未来の力に〜<span class="cite-mark">[cite: 1]</span></h1>
-            <div class="hero-date">2026 8/1 (土)<span class="cite-mark">[cite: 1]</span></div>
+            <h1 class="hero-title">富山の誇りを、<br>未来の力に〜</h1>
+            <div class="hero-date">2026 8/1 (土)</div>
         </div>
     </section>
 
@@ -429,50 +469,94 @@
         <div class="fade-in">
             <h2 class="question-text">
                 あなたは、今————<br>
-                何を<span class="gold-text">“原動力”</span>に、<br>生きていますか？<span class="cite-mark">[cite: 1]</span>
+                何を<span class="gold-text">“原動力”</span>に、<br>生きていますか？
             </h2>
             <p class="question-sub">
                 過去を知り、今を見つめ、未来へ志をつなぐ<br>
-                本来の日本人の在り方を思い出す時間を創ります。<span class="cite-mark">[cite: 1]</span>
+                本来の日本人の在り方を思い出す時間を創ります。
             </p>
         </div>
     </section>
 
-    <!-- Message Section -->
-    <section class="message-section">
-        <h2 class="message-title fade-in">天職を辞めてでも、<br>富山で伝えたかったこと。</h2>
+    <!-- Infographic Section (現状の見える化) -->
+    <section class="infographic-section">
+        <div class="section-header fade-in">
+            <h2>いま、日本で起きている現実</h2>
+        </div>
+
+        <div class="data-card fade-in">
+            <div class="data-title">自ら命を絶つ子どもたち（小・中・高）</div>
+            <div class="data-number">500<span>名超</span></div>
+            <p style="text-align: center; font-size: 0.85rem; margin-bottom: 0;">2024年、観測史上最も多くの子どもたちが<br>未来に希望を持てず、命を絶ちました。<br>若者の死因の第1位は「自殺」です。</p>
+        </div>
+
+        <div class="data-card fade-in" style="border-top-color: var(--accent-color);">
+            <div class="data-title">若者の「自己肯定感」の国際比較</div>
+            <div class="bar-chart">
+                <div class="bar-item">
+                    <div class="bar-label"><span>日本 (自分に満足している)</span><span>約45%</span></div>
+                    <div class="bar-bg"><div class="bar-fill fill-japan"></div></div>
+                </div>
+                <div class="bar-item">
+                    <div class="bar-label"><span style="color: #888;">欧米諸国水準</span><span style="color: #888;">約86%</span></div>
+                    <div class="bar-bg"><div class="bar-fill fill-other"></div></div>
+                </div>
+            </div>
+            <p style="text-align: center; font-size: 0.85rem; margin-top: 1rem; margin-bottom: 0;">日本は今、世界の中で<br>最も自己肯定感の低い国になっています。</p>
+        </div>
+
+        <div class="concept-box fade-in">
+            <h3>なぜ、大人も子どもも元気がないのか？</h3>
+            <p>
+                テストの点数、仕事の実績、誰かからの評価。<br>
+                私たちはいつの間にか「条件付きの自信（自己概念）」ばかりを求められ、息苦しさを抱えています。<br><br>
+                本当に必要なのは<strong>「私はここにいるだけで価値がある」という【自己愛】</strong>を育むこと。学校だけでなく、社会全体の大人が葛藤しながら生み出してしまったこの結果を、今こそ変えなければなりません。
+            </p>
+        </div>
+    </section>
+
+    <!-- Story Section (岡本の想い) -->
+    <section class="story-section">
+        <div class="section-header fade-in">
+            <h2>天職を辞めてでも、<br>富山で伝えたかったこと</h2>
+        </div>
         
-        <div class="message-body">
-            <p class="fade-in">
-                皆様、こんにちは。<br>
-                未来志創プロジェクトの岡本奎一です。<span class="cite-mark">[cite: 1]</span>
-            </p>
-            <p class="fade-in">
-                私は10年間、公立中学校の教員として現場に立ち、数多くの子どもたちや親御さんと向き合ってきました。多忙な日々の中、「先生として子どもたちに何を伝えたいのか」「自分を支える想いは何なのか」を常に自問自答してきました。
-            </p>
-            <p class="fade-in">
-                しかし現実は残酷です。2024年、年間500名を超える子どもたちが自ら命を絶ちました。若者の死因の1位が自殺であり、未来に希望がもてず、自己肯定感が著しく低い日本。この現状を目の当たりにするたび、胸が締め付けられる思いでした。
-            </p>
-            
-            <div class="highlight-box fade-in">
-                <p>
-                    「条件や実績ではなく、ただここに生きているだけで価値がある」<br><br>
-                    そのことを、腹の底から子どもたちに伝えられる大人が、今の日本には必要です。
-                </p>
+        <div class="story-container">
+            <!-- Episode 1 -->
+            <div class="story-block fade-in">
+                <h3>相手を想う言葉が、刃になった10年間</h3>
+                <p>皆様、こんにちは。未来志創プロジェクトの岡本奎一です。</p>
+                <p>私は10年間、公立中学校の教員として現場に立ってきました。しかし、教員1年目。自身の力不足から学級崩壊を招いてしまいました。その時、生徒から悲痛な問いが綴られた手紙をもらいました。</p>
+                <div class="quote-text">
+                    「先生は私たちの意見を受け止めてくれたのか？<br>人の言葉ってなんなのか。求めていない人にも応援を送ってしまうのか？」
+                </div>
+                <p>相手のためを思ってかけた言葉が、かえって相手を深く傷つけ、心を閉ざさせてしまう絶望。当時の私には答えが分からず、ただ無我夢中で月200時間を超える超過勤務を続け、結果として私自身もうつ状態に陥りました。</p>
             </div>
 
-            <p class="fade-in">
-                だからこそ、立山連峰のように揺るぎない「志」を育む教育者、株式会社誇高の小倉瑞季社長を、私の地元・富山にお招きします。
-            </p>
-            <p class="fade-in">
-                「志」と聞くと堅苦しく感じるかもしれません。しかしそれは「本当に伝えたい想い」です。親として、指導者として、子どもに「これだけは伝えたい」ことは何か。それを見つめ直すための1日です。
-            </p>
-            <p class="fade-in">
-                今回は、私の教え子である4名も運営スタッフとしてチームを組み、共に作り上げます。いつもはふざけている岡本ですが、今回は本気で、人生をかけてこの日を迎えます。
-            </p>
-            <p class="fade-in">
-                私にとって大切な萩野先生をはじめ、教育に携わる皆様、子育てに悩む皆様と、この場を分かち合いたい。感謝を受け取りに、ぜひ会場へいらしてください。
-            </p>
+            <!-- Episode 2 -->
+            <div class="story-block fade-in">
+                <h3>「素質」の違いに気づき、独立へ</h3>
+                <p>なぜ伝わらないのか。愛情があるのになぜ傷つけ合うのか。<br>苦悩の末に辿り着いたのが、トラブルの根本原因は「生まれ持った価値観（素質）のズレ」にあるという事実でした。</p>
+                <p>私は価値観を押し付けることをやめ、親子の価値観のズレを言語化し、ありのままを受容するための「子育てコーチング」の活動を始めました。子どもたちの安全基地を作るため、天職だと思っていた教員を辞める決断をしました。</p>
+            </div>
+
+            <!-- Episode 3 -->
+            <div class="story-block fade-in">
+                <h3>そして「誇高」との出会い。DNAが目覚めた</h3>
+                <p>独立後、起業家としてがむしゃらに走る中で、私自身もまた「結果を出さねば」という機能的な自信（自己概念）に囚われそうになっていました。</p>
+                <p>そんな去年、小倉瑞季社長の「誇高」に出会いました。衝撃でした。<br>誇高を受け、私の中に眠っていた「日本人としての誇り」と、「ただ存在するだけで価値があるという自己愛」がDNAレベルで呼び覚まされたのです。</p>
+                <div class="quote-text">
+                    「自分が何のためにこの命を使うのか。<br>使命が完全にクリアになりました。」
+                </div>
+                <p>先生として子どもたちに何を伝えたいのか。親として「これだけは伝えたい」ことは何か。<br>私が教員を辞めてでもやりたかったこと、本当に伝えたかったことが、すべてこの「誇高」に詰まっていました。</p>
+            </div>
+
+            <div class="story-block fade-in" style="text-align: center;">
+                <p style="font-weight: bold; font-size: 1.1rem; color: var(--primary-color);">
+                    いつもはふざけている岡本ですが、<br>今回は本気で、人生をかけてこの日を迎えます。<br><br>
+                    私にとって大切な萩野先生をはじめ、<br>このご縁への感謝を届けたいです。<br>どうか、その感謝を受け取りに来てください。
+                </p>
+            </div>
         </div>
     </section>
 
@@ -483,20 +567,20 @@
                 <div class="profile-image"></div>
             </div>
             <div class="profile-text fade-in">
-                <div class="profile-title">株式会社誇高 代表取締役社長 <span class="cite-mark">[cite: 1]</span></div>
-                <h3 class="profile-name">小倉 瑞季 <span style="font-size:1rem; color:#888;">MIZUKI OGURA</span> <span class="cite-mark">[cite: 1]</span></h3>
+                <div class="profile-title">株式会社誇高 代表取締役社長</div>
+                <h3 class="profile-name">小倉 瑞季 <span style="font-size:1rem; color:#888;">MIZUKI OGURA</span></h3>
                 
                 <p style="margin-top: 1.5rem;">
-                    愛媛県生まれ千葉育ち。13歳の頃から「非行や虐待のない社会をつくりたい」と志し、若者の教育・キャリア支援に長年携わる。<span class="cite-mark">[cite: 1]</span>
+                    愛媛県生まれ千葉育ち。13歳の頃から「非行や虐待のない社会をつくりたい」と志し、若者の教育・キャリア支援に長年携わる。
                 </p>
                 <p>
-                    これまで年間230本の講演やセミナーを運営し、累計50,000人以上の方に向けメッセージしてきた実績を基に2023年開業。1年で2,560件の有料講座のお申込みを頂く。<span class="cite-mark">[cite: 1]</span>
+                    これまで年間230本の講演やセミナーを運営し、累計50,000人以上の方に向けメッセージしてきた実績を基に2023年開業。1年で2,560件の有料講座のお申込みを頂く。
                 </p>
                 <p>
-                    2023年9月法人化。TEDやPRESIDENTにも出演をし、2024年に「すべての日本人が誇り高く生きるための教科書」と処女作を発刊。<span class="cite-mark">[cite: 1]</span>
+                    2023年9月法人化。TEDやPRESIDENTにも出演をし、2024年に「すべての日本人が誇り高く生きるための教科書」と処女作を発刊。
                 </p>
                 <p>
-                    日本人としてのルーツや誇り、本来の在り方を見つめ直し、“自分は何を原動力に生きるのか”を問い直す教育活動を全国で届けている。過去を知り、今を見つめ、未来へ志をつなぐ――多くの人の人生に火を灯し続けている教育家。<span class="cite-mark">[cite: 1]</span>
+                    日本人としてのルーツや誇り、本来の在り方を見つめ直し、“自分は何を原動力に生きるのか”を問い直す教育活動を全国で届けている。過去を知り、今を見つめ、未来へ志をつなぐ――多くの人の人生に火を灯し続けている教育家。
                 </p>
             </div>
         </div>
@@ -504,7 +588,9 @@
 
     <!-- Event Details Section -->
     <section class="details-section">
-        <h2 class="message-title fade-in" style="margin-bottom: 2rem;">開催概要</h2>
+        <h2 class="section-header fade-in" style="margin-bottom: 2rem;">
+            <span style="font-size: 1.8rem; color: var(--primary-color);">開催概要</span>
+        </h2>
         
         <div class="details-card fade-in">
             <table class="details-table">
@@ -512,31 +598,31 @@
                     <tr>
                         <th>日時</th>
                         <td>
-                            <strong>2026年 8月1日 (土)</strong><span class="cite-mark">[cite: 1]</span><br>
-                            ★ 開場 | 13:00<span class="cite-mark">[cite: 1]</span><br>
-                            ★ 講演会 | 14:00~16:00<span class="cite-mark">[cite: 1]</span>
+                            <strong>2026年 8月1日 (土)</strong><br>
+                            ★ 開場 | 13:00<br>
+                            ★ 講演会 | 14:00~16:00
                         </td>
                     </tr>
                     <tr>
                         <th>場所</th>
                         <td>
-                            富山県民会館 304号室<span class="cite-mark">[cite: 1]</span><br>
-                            <span style="font-size: 0.85em; color: var(--text-light); margin-top: 5px; display: block;">※200名収容の会場です。満員に向けて準備しております！</span>
+                            富山県民会館 304号室<br>
+                            <span style="font-size: 0.85em; color: var(--text-light); margin-top: 5px; display: block;">※今回は教え子4名も運営に入ります。200名満員に向けて準備しております！</span>
                         </td>
                     </tr>
                     <tr>
                         <th>参加費</th>
                         <td>
-                            大人(大学院生含む)：3,000円<span class="cite-mark">[cite: 1]</span><br>
-                            大学生：1,000円<span class="cite-mark">[cite: 1]</span><br>
-                            高校生以下：無料<span class="cite-mark">[cite: 1]</span>
+                            大人(大学院生含む)：3,000円<br>
+                            大学生：1,000円<br>
+                            高校生以下：無料
                         </td>
                     </tr>
                     <tr>
                         <th>運営</th>
                         <td>
                             未来志創プロジェクト 岡本奎一<br>
-                            誇高MATSURI in 富山 実行委員<span class="cite-mark">[cite: 1]</span>
+                            誇高MATSURI in 富山 実行委員
                         </td>
                     </tr>
                 </tbody>
@@ -551,9 +637,8 @@
 
     <!-- CTA Section -->
     <section class="cta-section">
-        <h2 class="fade-in" style="font-size: 1.8rem; margin-bottom: 1rem;">お申込みフォーム<span class="cite-mark">[cite: 1]</span></h2>
+        <h2 class="fade-in" style="font-size: 1.8rem; margin-bottom: 1rem;">お申込みフォーム</h2>
         <p class="fade-in">ご都合が合えば、私からの「感謝」を受け取りに来てください。</p>
-        <!-- PC時のみ表示されるボタン -->
         <a href="#" class="btn-gold fade-in">今すぐ参加を申し込む</a>
     </section>
 
@@ -561,7 +646,7 @@
         &copy; 2026 未来志創プロジェクト All Rights Reserved.
     </footer>
 
-    <!-- フローティングCTAボタン (スマホ時のみ画面下部に追従) -->
+    <!-- Floating CTA -->
     <div class="floating-cta">
         <a href="#" class="btn-gold">お申込みはこちら</a>
     </div>
@@ -571,7 +656,7 @@
         document.addEventListener("DOMContentLoaded", function() {
             const observerOptions = {
                 root: null,
-                rootMargin: "0px 0px -10% 0px", /* 画面下部から10%見えたら発火 */
+                rootMargin: "0px 0px -10% 0px",
                 threshold: 0.1
             };
 
