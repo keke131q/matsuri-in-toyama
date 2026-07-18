@@ -14,18 +14,18 @@
     
     <style>
         :root {
-            --primary-blue: #0f2a4a;
-            --tateyama-blue: #1d4e79;
-            --sky-blue: #4a8ac2;
-            --ice-bg: #f4f8fb;
-            --accent-red: #d93829;
-            --accent-gold: #c7942e;
-            --gold-gradient: linear-gradient(135deg, #e6bc65 0%, #c7942e 50%, #9a6b1f 100%);
-            --text-main: #2b2b2b;
-            --text-muted: #556677;
+            /* 温かみのある明るい配色に変更 */
+            --primary-blue: #1d4e79; 
+            --tateyama-blue: #4a8ac2;
+            --ice-bg: #fffaf0; /* アイボリー系で温かく */
+            --accent-red: #e65c53;
+            --accent-gold: #f2aa4c;
+            --gold-gradient: linear-gradient(135deg, #fceabb 0%, #f8b500 100%);
+            --text-main: #333333;
+            --text-muted: #666666;
             --white: #ffffff;
-            --section-pad: 70px 16px;
-            --shadow: 0 10px 25px rgba(15, 42, 74, 0.08);
+            --section-pad: 60px 16px;
+            --shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
             --radius: 16px;
         }
 
@@ -62,7 +62,7 @@
         }
 
         .container {
-            max-width: 960px;
+            max-width: 800px;
             margin: 0 auto;
             padding: 0 16px;
         }
@@ -70,27 +70,13 @@
         .text-center { text-align: center; }
         .text-accent { color: var(--accent-red); }
         .text-gold { color: var(--accent-gold); }
-        .text-blue { color: var(--tateyama-blue); }
 
-        /* スマホ/PCでの改行制御（単語の途中での不自然な改行を防ぐ） */
-        .pc-only { display: inline; }
-        .sp-only { display: none; }
-        .inline-block { display: inline-block; }
-
-        @media (max-width: 768px) {
-            .pc-only { display: none; }
-            .sp-only { display: inline; }
+        /* 5行ルールの余白徹底 */
+        .space-y > p {
+            margin-bottom: 24px;
         }
-
-        /* 5行以上のルール徹底：段落間の余白設定 */
-        p {
-            margin-bottom: 1.5em;
-        }
-        p:last-child {
+        .space-y > p:last-child {
             margin-bottom: 0;
-        }
-        .space-y > * + * {
-            margin-top: 1.5em;
         }
 
         /* ==========================================
@@ -101,116 +87,120 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes floatSlow {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-        }
-
         @keyframes pulseGlow {
-            0% { box-shadow: 0 0 0 0 rgba(217, 56, 41, 0.5); }
-            70% { box-shadow: 0 0 0 15px rgba(217, 56, 41, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(217, 56, 41, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(230, 92, 83, 0.5); }
+            70% { box-shadow: 0 0 0 15px rgba(230, 92, 83, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(230, 92, 83, 0); }
         }
 
         .reveal {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(20px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* ==========================================
-           Hero Section (立山背景)
+           Hero Section (立山背景＋明るい縁取り)
            ========================================== */
         .hero {
             position: relative;
-            min-height: 90vh;
+            min-height: 85vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(180deg, rgba(15, 42, 74, 0.8) 0%, rgba(29, 78, 121, 0.65) 45%, rgba(255, 255, 255, 0.95) 90%, rgba(255, 255, 255, 1) 100%),
-                        radial-gradient(circle at 50% 20%, rgba(255, 220, 150, 0.25) 0%, transparent 60%),
-                        url('https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?auto=format&fit=crop&w=1920&q=80') center top/cover no-repeat;
-            color: var(--text-main);
-            padding: 90px 16px 60px;
+            /* 背景立山.png を使用し、明るい白グラデーションで温かみを */
+            background: url('背景立山.png') center bottom/cover no-repeat;
+            padding: 80px 16px 50px;
             text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.9) 100%);
+            z-index: 1;
         }
 
         .hero-content {
             position: relative;
             z-index: 2;
-            max-width: 800px;
-            margin: 0 auto;
+            width: 100%;
             animation: fadeInDown 1s ease-out;
+        }
+
+        /* 文字を明るく縁取り */
+        .bright-text {
+            color: #ffffff;
+            -webkit-text-stroke: 1.5px var(--primary-blue);
+            text-shadow: 0px 4px 10px rgba(0,0,0,0.15);
         }
 
         .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            background: rgba(15, 42, 74, 0.9);
-            color: var(--white);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 6px 18px;
+            background: var(--white);
+            color: var(--primary-blue);
+            border: 2px solid var(--tateyama-blue);
+            padding: 6px 16px;
             border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 700;
+            font-size: 0.9rem;
+            font-weight: 800;
             margin-bottom: 20px;
-            animation: floatSlow 5s ease-in-out infinite;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
         }
 
         .hero-catch {
-            font-size: clamp(1.05rem, 3vw, 1.4rem);
-            font-weight: 700;
-            margin-bottom: 20px;
+            font-size: 1.3rem;
+            font-weight: 900;
+            margin-bottom: 15px;
             line-height: 1.8;
-            color: var(--primary-blue);
         }
 
         .hero-title-tag {
             display: inline-block;
             background: var(--accent-red);
             color: var(--white);
-            font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+            font-size: 1.1rem;
             font-weight: 800;
             padding: 4px 16px;
             border-radius: 6px;
             margin-bottom: 10px;
             letter-spacing: 0.1em;
+            box-shadow: 0 4px 10px rgba(230, 92, 83, 0.3);
         }
 
         .hero-title {
-            font-size: clamp(2.4rem, 8vw, 4.2rem);
-            font-weight: 800;
+            font-size: clamp(2.6rem, 9vw, 4rem);
+            font-weight: 900;
             letter-spacing: 0.05em;
             margin-bottom: 8px;
             line-height: 1.15;
-            color: var(--primary-blue);
         }
 
         .hero-subtitle {
-            font-size: clamp(1.1rem, 3vw, 1.6rem);
-            font-weight: 700;
+            font-size: 1.3rem;
+            font-weight: 900;
             margin-bottom: 30px;
-            color: var(--tateyama-blue);
         }
 
         .hero-date-box {
             background: var(--white);
-            border: 2px solid #e1e8ed;
-            padding: 24px 20px;
+            border: 2px solid var(--accent-gold);
+            padding: 20px;
             border-radius: var(--radius);
             display: inline-block;
-            box-shadow: 0 15px 30px rgba(15, 42, 74, 0.12);
-            margin-bottom: 35px;
-            border-top: 5px solid var(--accent-red);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
             width: 100%;
-            max-width: 440px;
+            max-width: 380px;
         }
 
         .hero-date {
-            font-size: clamp(1.8rem, 6vw, 2.8rem);
-            font-weight: 800;
+            font-size: 2.4rem;
+            font-weight: 900;
             line-height: 1.2;
             color: var(--primary-blue);
         }
@@ -221,35 +211,36 @@
         }
 
         .hero-venue {
-            font-size: 1.05rem;
-            font-weight: 700;
+            font-size: 1rem;
+            font-weight: 800;
             margin-top: 8px;
             color: var(--text-main);
+            line-height: 1.6;
         }
 
         .hero-cta-btn {
             display: flex;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(135deg, var(--accent-red) 0%, #b8281a 100%);
+            background: linear-gradient(135deg, var(--accent-red) 0%, #cc443b 100%);
             color: var(--white);
-            font-size: clamp(1.05rem, 3vw, 1.25rem);
-            font-weight: 700;
-            padding: 18px 30px;
+            font-size: 1.15rem;
+            font-weight: 800;
+            padding: 16px 30px;
             border-radius: 50px;
-            box-shadow: 0 10px 25px rgba(217, 56, 41, 0.4);
+            box-shadow: 0 10px 20px rgba(230, 92, 83, 0.4);
             animation: pulseGlow 2.5s infinite;
             width: 100%;
-            max-width: 380px;
+            max-width: 340px;
             margin: 0 auto;
         }
 
         .hero-cta-btn:active {
-            transform: scale(0.97);
+            transform: scale(0.96);
         }
 
         /* ==========================================
-           Section Common & Cards
+           Section Common
            ========================================== */
         section {
             padding: var(--section-pad);
@@ -257,193 +248,114 @@
 
         .section-title {
             text-align: center;
-            font-size: clamp(1.5rem, 5vw, 2.2rem);
+            font-size: 1.6rem;
             color: var(--primary-blue);
-            margin-bottom: 10px;
-            font-weight: 800;
+            margin-bottom: 12px;
+            font-weight: 900;
+            line-height: 1.5;
         }
 
         .section-subtitle {
             text-align: center;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
-            margin-bottom: 40px;
+            margin-bottom: 35px;
             font-weight: 700;
+            line-height: 1.6;
         }
 
         .bg-ice {
             background-color: var(--ice-bg);
-            border-top: 1px solid #e2edf7;
-            border-bottom: 1px solid #e2edf7;
+            border-top: 1px solid #f6eedc;
+            border-bottom: 1px solid #f6eedc;
         }
 
         /* ==========================================
-           Why Organize? (ビジュアル化・文字スリム化)
+           Why Organize? (1行14文字・短文ブロック)
            ========================================== */
         .passion-box {
             background: var(--white);
             border-radius: var(--radius);
-            padding: 30px 20px;
+            padding: 35px 16px;
             box-shadow: var(--shadow);
-            border-left: 5px solid var(--tateyama-blue);
-            margin-bottom: 30px;
+            border-left: 6px solid var(--accent-gold);
+            margin-bottom: 20px;
         }
 
-        .passion-box h3 {
-            font-size: 1.25rem;
-            color: var(--primary-blue);
-            margin-bottom: 15px;
-            font-weight: 800;
-            line-height: 1.5;
-        }
-
-        /* 社会課題の図解風カード */
         .issue-card {
             background: #fff8f8;
             border: 2px solid #ffcccc;
             border-radius: 12px;
-            padding: 24px 20px;
-            margin: 25px 0;
+            padding: 20px 16px;
+            margin: 24px auto;
             text-align: center;
+            max-width: 340px;
         }
 
         .issue-badge {
             display: inline-block;
             background: var(--accent-red);
             color: var(--white);
-            font-weight: 700;
+            font-weight: 800;
             font-size: 0.85rem;
             padding: 4px 14px;
             border-radius: 50px;
-            margin-bottom: 12px;
-        }
-
-        .issue-card h4 {
-            color: var(--accent-red);
-            font-size: 1.2rem;
-            font-weight: 800;
             margin-bottom: 10px;
         }
 
         .quote-box {
-            background: linear-gradient(135deg, #eff6fc 0%, #e3f0fa 100%);
+            background: var(--gold-gradient);
             border-radius: 12px;
-            padding: 25px 20px;
+            padding: 25px 16px;
             text-align: center;
-            margin: 30px 0;
-            font-weight: 800;
-            color: var(--primary-blue);
-            font-size: clamp(1.2rem, 4vw, 1.6rem);
-            line-height: 1.6;
-            border: 1px solid #cce2f5;
+            margin: 30px auto;
+            font-weight: 900;
+            color: #fff;
+            font-size: 1.3rem;
+            line-height: 1.7;
+            max-width: 340px;
+            box-shadow: 0 8px 15px rgba(242, 170, 76, 0.3);
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         /* ==========================================
-           Who & What (視覚的カード)
+           Who & What
            ========================================== */
         .target-grid {
-            display: grid;
-            grid-template-columns: 1fr;
+            display: flex;
+            flex-direction: column;
             gap: 20px;
-        }
-
-        @media (min-width: 768px) {
-            .target-grid { grid-template-columns: repeat(3, 1fr); }
-            .passion-box { padding: 45px 40px; }
         }
 
         .target-card {
             background: var(--white);
-            padding: 25px 20px;
+            padding: 24px 16px;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            border-top: 4px solid var(--sky-blue);
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
+            border-top: 4px solid var(--tateyama-blue);
         }
 
-        .target-card .icon-title {
+        .icon-title {
             display: flex;
             align-items: center;
-            gap: 12px;
-            font-size: 1.15rem;
-            font-weight: 800;
+            justify-content: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            font-weight: 900;
             color: var(--primary-blue);
-            border-bottom: 1px solid #f0f4f8;
-            padding-bottom: 10px;
+            border-bottom: 2px dashed #f0f4f8;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
         }
 
-        .target-card .icon-title i {
-            font-size: 1.6rem;
-            color: var(--tateyama-blue);
+        .icon-title i {
+            font-size: 1.5rem;
+            color: var(--accent-gold);
         }
 
         /* ==========================================
-           Speaker Section (簡潔＆ビジュアル化)
+           Speaker Section (画像一枚)
            ========================================== */
-        .speaker-card {
-            background: var(--white);
-            border-radius: var(--radius);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            border: 1px solid #e1e8ed;
-        }
-
-        .speaker-img-wrap {
-            height: 260px;
-            background: #0f2a4a url('https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
-        }
-
-        @media (min-width: 768px) {
-            .speaker-card { display: flex; }
-            .speaker-img-wrap { flex: 0 0 320px; height: auto; }
-        }
-
-        .speaker-info {
-            padding: 30px 20px;
-            flex: 1;
-        }
-
-        .speaker-name {
-            font-size: 1.8rem;
-            font-weight: 800;
-            color: var(--primary-blue);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: baseline;
-            gap: 10px;
-        }
-
-        .speaker-name span {
-            font-size: 0.95rem;
-            color: var(--text-muted);
-            font-family: 'Noto Sans JP', sans-serif;
-        }
-
-        .point-list {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .point-item {
-            background: var(--ice-bg);
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            border-left: 3px solid var(--tateyama-blue);
-        }
-
-        .point-item i {
-            color: var(--tateyama-blue);
-            margin-top: 4px;
-        }
-
         .video-wrapper {
             position: relative;
             padding-bottom: 56.25%;
@@ -451,93 +363,61 @@
             overflow: hidden;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            margin-top: 30px;
+            margin-top: 24px;
         }
 
         .video-wrapper iframe {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             border: 0;
         }
 
         /* ==========================================
-           Sports Clubs & Groups (料金と申込ステップ)
+           Sports Clubs & Groups
            ========================================== */
         .club-box {
-            background: linear-gradient(135deg, #0f2a4a 0%, #1d4e79 100%);
-            color: var(--white);
-            padding: 40px 20px;
+            background: #fffdf9;
+            border: 3px solid var(--accent-gold);
+            color: var(--text-main);
+            padding: 35px 16px;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
         }
 
-        @media (min-width: 768px) {
-            .club-box { padding: 50px 40px; }
-        }
-
         .club-title {
-            font-size: clamp(1.3rem, 4vw, 1.8rem);
+            font-size: 1.35rem;
             text-align: center;
-            margin-bottom: 15px;
-            color: #ffd880;
-            font-weight: 800;
+            margin-bottom: 16px;
+            color: var(--primary-blue);
+            font-weight: 900;
             line-height: 1.5;
-        }
-
-        /* 料金比較チケット */
-        .ticket-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-            margin: 25px 0;
-        }
-
-        @media (min-width: 600px) {
-            .ticket-grid { grid-template-columns: 1fr 1fr; }
         }
 
         .ticket-card {
             background: var(--white);
-            color: var(--text-main);
-            padding: 20px;
+            padding: 16px;
             border-radius: 12px;
             text-align: center;
             border: 2px solid #e0e0e0;
+            margin-bottom: 12px;
         }
 
         .ticket-card.highlight {
-            border: 3px solid var(--accent-gold);
-            background: #fffcf5;
-            position: relative;
-        }
-
-        .ticket-card.highlight::before {
-            content: "特別優待割引";
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--gold-gradient);
-            color: var(--white);
-            font-size: 0.75rem;
-            font-weight: 800;
-            padding: 3px 14px;
-            border-radius: 50px;
+            border: 3px solid var(--accent-red);
+            background: #fff8f8;
         }
 
         .ticket-label {
             font-size: 0.9rem;
             color: var(--text-muted);
-            font-weight: 700;
-            margin-bottom: 5px;
+            font-weight: 800;
+            margin-bottom: 4px;
         }
 
         .ticket-price {
             font-size: 1.8rem;
-            font-weight: 800;
+            font-weight: 900;
             color: var(--primary-blue);
         }
 
@@ -545,17 +425,16 @@
             color: var(--accent-red);
         }
 
-        /* 申込方法の分かりやすい2パターン */
         .pattern-box {
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: var(--white);
+            border: 2px dashed var(--tateyama-blue);
             border-radius: 12px;
-            padding: 20px;
-            margin-top: 30px;
+            padding: 16px;
+            margin-top: 24px;
         }
 
         .pattern-item {
-            background: rgba(0, 0, 0, 0.25);
+            background: #f4f8fb;
             padding: 16px;
             border-radius: 8px;
             margin-bottom: 12px;
@@ -564,10 +443,10 @@
         .pattern-item:last-child { margin-bottom: 0; }
 
         .pattern-head {
-            color: #ffd880;
-            font-weight: 800;
-            font-size: 1rem;
-            margin-bottom: 6px;
+            color: var(--primary-blue);
+            font-weight: 900;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -582,88 +461,69 @@
         }
 
         /* ==========================================
-           Event Details & Booths
+           Event Details
            ========================================== */
         .info-wrap {
             background: var(--white);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
-            overflow: hidden;
             border: 1px solid #eaeaea;
         }
 
         .info-row {
-            padding: 16px 20px;
+            padding: 16px;
             border-bottom: 1px solid #eaeaea;
         }
 
         .info-row:last-child { border-bottom: none; }
 
         .info-label {
-            font-weight: 800;
+            font-weight: 900;
             color: var(--primary-blue);
-            font-size: 0.9rem;
-            margin-bottom: 4px;
+            font-size: 0.95rem;
+            margin-bottom: 6px;
             display: flex;
             align-items: center;
-            gap: 6px;
-        }
-
-        .info-val {
-            font-size: 1rem;
-            color: var(--text-main);
+            gap: 8px;
         }
 
         .booth-grid {
             display: flex;
-            flex-wrap: wrap;
+            flex-direction: column;
             gap: 8px;
             margin-top: 10px;
         }
 
         .booth-tag {
-            background: #f8fbef;
-            border: 1px solid #d4e8c1;
-            color: #3b6318;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: 700;
-            display: inline-flex;
+            background: #fdfbf7;
+            border: 1px solid #f2aa4c;
+            color: #8c6314;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 800;
+            display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
         }
 
         /* ==========================================
            CTA Section
            ========================================== */
         .cta-section {
-            background: linear-gradient(135deg, #0b1e36 0%, #15385e 100%);
-            color: var(--white);
-        }
-
-        .step-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        @media (min-width: 600px) {
-            .step-grid { grid-template-columns: 1fr 1fr; }
+            background: var(--ice-bg);
+            color: var(--text-main);
         }
 
         .step-card {
             background: var(--white);
-            color: var(--text-main);
-            padding: 30px 20px;
+            padding: 24px 16px;
             border-radius: var(--radius);
             text-align: center;
             position: relative;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+            border: 2px solid #eaeaea;
         }
 
         .step-num {
@@ -671,11 +531,11 @@
             top: -12px;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--accent-red);
+            background: var(--primary-blue);
             color: var(--white);
-            font-weight: 800;
+            font-weight: 900;
             font-size: 0.85rem;
-            padding: 4px 16px;
+            padding: 4px 20px;
             border-radius: 50px;
         }
 
@@ -684,40 +544,47 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            font-weight: 700;
-            font-size: 1.05rem;
-            padding: 16px 20px;
-            border-radius: 10px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            padding: 16px;
+            border-radius: 50px;
             width: 100%;
-            margin-top: 20px;
-            transition: opacity 0.3s;
+            margin-top: 16px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
         }
 
         .btn-line { background: #06c755; color: #fff; }
-        .btn-form { background: var(--primary-blue); color: #fff; }
-        .btn-action:active { opacity: 0.8; }
+        .btn-form { background: var(--accent-red); color: #fff; }
+        
+        .sponsor-box {
+            background: var(--white);
+            border: 2px dashed #ccc;
+            padding: 24px 16px;
+            border-radius: var(--radius);
+            margin-top: 40px;
+        }
 
         .btn-sponsor {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            background: transparent;
-            color: var(--white);
-            border: 2px solid var(--white);
+            background: #fff;
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
             padding: 12px 24px;
             border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            margin-top: 12px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            margin-top: 16px;
         }
 
         footer {
-            background: #071321;
-            color: #8899a8;
+            background: var(--primary-blue);
+            color: #fff;
             text-align: center;
             padding: 30px 16px;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
         }
     </style>
 </head>
@@ -730,20 +597,25 @@
             <br>
             
             <div class="hero-title-tag">誇り講演会</div>
-            <h1 class="hero-title">誇高MATSURI<br><span style="font-size: 0.5em; font-weight: 700;">in 富山</span></h1>
-            <p class="hero-subtitle">〜 富山の誇りを、未来の力に 〜</p>
+            <h1 class="hero-title bright-text">誇高MATSURI<br><span style="font-size: 0.55em; font-weight: 900;">in 富山</span></h1>
+            <p class="hero-subtitle bright-text">〜 富山の誇りを、未来の力に 〜</p>
 
-            <p class="hero-catch serif">
-                あなたは、今――<br class="sp-only">何を“原動力”に生きていますか？<br>
-                過去を知り、今を見つめ、<br class="sp-only">未来へ志をつなぐ時間。
+            <p class="hero-catch serif bright-text">
+                あなたは、今――<br>
+                何を“原動力”に<br>
+                生きていますか？<br>
+                過去を知り、今を見つめ、<br>
+                未来へ志をつなぐ時間。
             </p>
 
             <div class="hero-date-box">
                 <div class="hero-date">2026.<span>8.1</span>(土)</div>
-                <div class="hero-venue"><i class="fa-solid fa-location-dot text-accent"></i> 富山県民会館 304号室</div>
-                <div style="font-size: 0.9rem; color: #555; margin-top: 8px; font-weight: 700;">
-                    【開場】13:00（特別ブースあり）<br class="sp-only">
-                    【講演会】14:00〜16:00
+                <div class="hero-venue">
+                    <i class="fa-solid fa-location-dot text-accent"></i> 富山県民会館 304号室<br>
+                    <span style="font-size: 0.9rem; color: #666;">
+                        【開場】13:00（特別ブースあり）<br>
+                        【講演会】14:00〜16:00
+                    </span>
                 </div>
             </div>
 
@@ -755,150 +627,161 @@
         </div>
     </header>
 
-    <!-- Why Organize? (短文＆ビジュアル化) -->
+    <!-- Why Organize? (14文字改行・短文ブロック) -->
     <section class="bg-ice">
         <div class="container">
             <div class="reveal">
-                <h2 class="section-title">なぜ、今この講演会を<br class="sp-only">主催するのか？</h2>
-                <p class="section-subtitle">富山の子どもたちと、日本の未来へ届けたい想い</p>
+                <h2 class="section-title">なぜ、今この講演会を<br>主催するのか？</h2>
+                <p class="section-subtitle">富山の子どもたちと、<br>日本の未来へ届けたい想い</p>
             </div>
 
             <div class="passion-box reveal">
-                <h3 class="serif text-center">
-                    天職である「中学校の先生」を<br class="sp-only">手放してでも、<br class="pc-only">
-                    何としてでも変えたい<br class="sp-only">現実と創りたい未来がある。
+                <h3 class="serif text-center" style="font-size: 1.35rem; color: var(--primary-blue); line-height: 1.8; margin-bottom: 10px;">
+                    天職である「中学校教師」を<br>
+                    手放してでも、<br>
+                    創りたい未来がある。
                 </h3>
-                <p style="font-size: 0.9rem; color: var(--text-muted); font-weight: 700; text-align: center; margin-bottom: 24px;">
-                    主催：岡本 奎一<br class="sp-only">（未来志創プロジェクト 代表）
+                <p class="text-center" style="font-size: 0.9rem; font-weight: 800; color: #777; margin-bottom: 30px;">
+                    主催：岡本 奎一<br>
+                    <span style="font-size: 0.8rem;">(誇高 MATSURI in 富山 実行委員会)</span>
                 </p>
 
-                <div class="space-y">
+                <div class="space-y text-center" style="font-size: 1.05rem; font-weight: 500;">
                     <p>
-                        私は3年前、自分にとって天職であった<br class="sp-only">「中学校の教員」を手放しました。<br>
-                        10年間の教員生活の中で、<br class="sp-only">親の期待と自分の生きたい道との違いに葛藤し、<br>
-                        <strong>自信を失い自己否定する子どもたち</strong>に<br class="sp-only">直面し続けてきたからです。
+                        私は3年前、自分にとって<br>
+                        天職であった「中学校教師」を<br>
+                        手放しました。
+                    </p>
+                    <p>
+                        自分に自信がない。<br>
+                        自信がない自分を傷つける。<br>
+                        未来に希望がもてない。<br>
+                        そんな子どもたちと<br>
+                        多く向き合ってきたからです。
                     </p>
 
-                    <!-- 社会課題の図解風カード（文字をスリム化して強調） -->
+                    <!-- 課題カード -->
                     <div class="issue-card">
-                        <div class="issue-badge"><i class="fa-solid fa-triangle-exclamation"></i> 見過ごせない日本の現状</div>
-                        <h4>若者の自殺（小中高生）が「過去最多」</h4>
-                        <p style="font-size: 0.95rem; margin: 0; color: #444;">
-                            未来に希望が持てず、自身の価値を<br class="sp-only">見出せない若者が増え続けています。<br>
-                            私はこの現状を、命をかけてでも<br class="sp-only">変えるきっかけを作りたいと決意しました。
+                        <div class="issue-badge"><i class="fa-solid fa-triangle-exclamation"></i> 見過ごせない現状</div>
+                        <h4 style="font-size: 1.15rem; color: var(--accent-red); margin-bottom: 8px;">若者の自殺が「過去最多」</h4>
+                        <p style="font-size: 0.95rem; margin: 0; color: #444; font-weight: 700;">
+                            未来に希望が持てず、<br>
+                            価値を見出せない若者が<br>
+                            増え続けています。<br>
+                            私はこの現状を、命をかけてでも<br>
+                            変えるきっかけを作りたい。
                         </p>
                     </div>
 
                     <p>
-                        子どもたちだけでなく、<strong>親御さんや大人自身も<br class="sp-only">伝わらない想いに苦しんでいる</strong>と気づきました。<br>
-                        私が教員時代に救われた言葉があります。
+                        子どもたちだけでなく、<br>
+                        親御さんや大人自身も<br>
+                        伝わらない想いに<br>
+                        苦しんでいると気づきました。
                     </p>
 
                     <div class="quote-box serif">
-                        「大人が輝けば子どもが輝く。<br>
-                        子どもが輝けば未来が輝く。」
+                        大人が輝けば子どもが輝く。<br>
+                        子どもが輝けば未来が輝く。
                     </div>
 
                     <p>
-                        子どもたちに「早くあんな大人になりたい」と<br class="sp-only">未来へ希望を持ってもらうためには、<br>
-                        まずは<strong>私たち「大人」自身の仕事や人生に<br class="sp-only">誇りを持って生きる姿</strong>を見せることです。
+                        子どもたちに<br>
+                        「早くあんな大人になりたい」<br>
+                        と未来へ希望を<br>
+                        持ってもらうためには。
                     </p>
 
                     <p>
-                        一年前の8月、小倉社長の講演会を受講し<br class="sp-only">涙するほどの衝撃と感動を受けました。<br>
-                        <strong>「この学びを、富山の大切な人たち、<br class="sp-only">子どもたちへ絶対に届けたい！」</strong><br>
-                        その本気の想いで準備しています。<br class="sp-only">ぜひ会場でお会いしましょう！
+                        まずは私たち「大人」自身の<br>
+                        仕事や人生に、<br>
+                        誇りを持って生きる姿を<br>
+                        見せることです。
+                    </p>
+
+                    <p>
+                        一年前の8月。<br>
+                        小倉社長の講演会を受講し、<br>
+                        涙するほどの衝撃と<br>
+                        感動を受けました。
+                    </p>
+
+                    <p>
+                        <strong style="color: var(--accent-red);">「この学びを、富山の<br>
+                        大切な人たちへ絶対に届けたい！」</strong><br>
+                        その本気の想いで準備しています。<br>
+                        ぜひ会場でお会いしましょう！
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Who & What (3つのカードレイアウト) -->
+    <!-- Who & What -->
     <section>
         <div class="container">
             <div class="reveal">
-                <h2 class="section-title">誰に、何が届く時間なのか？</h2>
-                <p class="section-subtitle">自分自身の「奥底にある想い」と言葉に出会う場</p>
+                <h2 class="section-title">誰に、何が届く時間か？</h2>
+                <p class="section-subtitle">「奥底にある想い」と言葉に出会う場</p>
             </div>
 
             <div class="target-grid">
-                <!-- Card 1 -->
                 <div class="target-card reveal">
                     <div class="icon-title">
                         <i class="fa-solid fa-child-reaching"></i>
-                        <span>今を生きる<br class="sp-only">子どもたちへ</span>
+                        <span>子どもたちへ</span>
                     </div>
-                    <p style="font-size: 0.95rem; color: #444; margin: 0;">
-                        「自分という存在（いのち）」の<br class="sp-only">価値に気づきます。<br>
-                        <strong>「私として生まれて本当によかった」</strong>と<br class="sp-only">感じ、勉強やスポーツに向き合う<br class="sp-only">本物の原動力が生まれます。
+                    <p class="text-center" style="font-size: 0.95rem; margin: 0; font-weight: 700;">
+                        「自分という存在(いのち)」の<br>
+                        価値に気づきます。<br>
+                        「私として生まれてよかった」<br>
+                        と感じ、勉強やスポーツの<br>
+                        本物の原動力が生まれます。
                     </p>
                 </div>
 
-                <!-- Card 2 -->
                 <div class="target-card reveal">
                     <div class="icon-title">
                         <i class="fa-solid fa-house-heart"></i>
-                        <span>子育てに向き合う<br class="sp-only">親御さんへ</span>
+                        <span>親御さんへ</span>
                     </div>
-                    <p style="font-size: 0.95rem; color: #444; margin: 0;">
-                        「未来に残したい誇りは何か？」<br class="sp-only">自分自身の温かい想いに見つめ直し、<br>
-                        <strong>自分を責めずに、自分らしさを<br class="sp-only">大切にできる安心感と誇り</strong>が得られます。
+                    <p class="text-center" style="font-size: 0.95rem; margin: 0; font-weight: 700;">
+                        親として「これだけは<br>
+                        大切にしたい」という<br>
+                        想い(心の声)を見つめ、<br>
+                        自分らしさを大切にできる<br>
+                        安心感と誇りが感じられます。
                     </p>
                 </div>
 
-                <!-- Card 3 -->
                 <div class="target-card reveal">
                     <div class="icon-title">
                         <i class="fa-solid fa-briefcase"></i>
-                        <span>教育者・経営者・<br class="sp-only">社会人へ</span>
+                        <span>教育者・社会人へ</span>
                     </div>
-                    <p style="font-size: 0.95rem; color: #444; margin: 0;">
-                        仕事を支える根底の想いや、<br class="sp-only">本来の在り方を思い出します。<br>
-                        <strong>志を定め、命の使い道を明確にする</strong>ことで<br class="sp-only">周りに火を灯す軸が確立されます。
+                    <p class="text-center" style="font-size: 0.95rem; margin: 0; font-weight: 700;">
+                        仕事を支える根底の想いや、<br>
+                        本来の在り方を思い出します。<br>
+                        志を定め、命の使い道を<br>
+                        明確にすることで、<br>
+                        周りに火を灯す軸が確立します。
                     </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Speaker (要点箇条書き＆ビジュアル) -->
+    <!-- Speaker (画像一枚でスッキリ) -->
     <section class="bg-ice" id="speaker">
-        <div class="container">
+        <div class="container text-center">
             <div class="reveal">
                 <h2 class="section-title">講師紹介</h2>
-                <p class="section-subtitle">全国で多くの人々の人生に火を灯し続ける教育家</p>
+                <p class="section-subtitle">人々の人生に火を灯し続ける教育家</p>
             </div>
-
-            <div class="speaker-card reveal">
-                <div class="speaker-img-wrap"></div>
-                <div class="speaker-info">
-                    <div class="speaker-role">株式会社誇高 代表取締役</div>
-                    <h3 class="speaker-name">小倉 瑞季 <span>Mizuki Ogura</span></h3>
-                    
-                    <div class="point-list">
-                        <div class="point-item">
-                            <i class="fa-solid fa-check"></i>
-                            <div><strong>13歳での立志：</strong> 荒れた学校生活を経て、「非行・虐待のない社会づくり」を13歳で志す。</div>
-                        </div>
-                        <div class="point-item">
-                            <i class="fa-solid fa-check"></i>
-                            <div><strong>事前対応の教育へ：</strong> 事後対応の警察官ではなく、犯罪を犯さずとも人生を選択できる「教育」に命を懸けると決意。</div>
-                        </div>
-                        <div class="point-item">
-                            <i class="fa-solid fa-check"></i>
-                            <div><strong>圧倒的な育成実績：</strong> 大手教育会社にて若手育成に尽力。名だたる企業の新人賞やMVPを多数輩出。</div>
-                        </div>
-                        <div class="point-item">
-                            <i class="fa-solid fa-check"></i>
-                            <div><strong>驚異的な広がり：</strong> 年間230本の講演で累計5万人以上にメッセージを届ける。著書「すべての日本人が誇り高く生きるための教科書」。</div>
-                        </div>
-                    </div>
-
-                    <div class="book-badge">
-                        <i class="fa-solid fa-book"></i> 2024年 処女作を発刊 / TED・PRESIDENT出演
-                    </div>
-                </div>
+            
+            <div class="reveal" style="margin-top: 16px;">
+                <!-- 提供画像をそのまま配置 -->
+                <img src="講師紹介.jpg" alt="小倉瑞季 講師紹介" style="width: 100%; border-radius: 12px; box-shadow: var(--shadow);">
             </div>
 
             <div style="margin-top: 30px;" class="reveal">
@@ -909,56 +792,52 @@
         </div>
     </section>
 
-    <!-- Sports Clubs & Groups (料金チケット＆申込パターン) -->
+    <!-- Sports Clubs & Groups -->
     <section>
         <div class="container">
             <div class="club-box reveal">
                 <h3 class="club-title serif">
-                    <i class="fa-solid fa-users-viewfinder"></i> 「スポーツクラブ」など<br class="sp-only">団体参加のご案内
+                    <i class="fa-solid fa-users-viewfinder" style="color: var(--accent-gold);"></i> スポーツクラブ等<br>
+                    団体参加のご案内
                 </h3>
-                <p style="text-align: center; font-size: 0.95rem; color: #e0f0ff; margin-bottom: 20px;">
-                    仲間との参加でチームの絆と強い原動力が生まれます。<br>
-                    子どもたちと足を運んでくださる<strong>保護者様へ感謝を込めた優待割引</strong>です。
+                <p class="text-center" style="font-size: 0.95rem; font-weight: 700; margin-bottom: 24px;">
+                    仲間との参加でチームの絆と<br>
+                    強い原動力が生まれます。<br>
+                    足を運んでくださる保護者様へ<br>
+                    感謝を込めた優待割引です。
                 </p>
 
-                <!-- 料金チケット・比較 -->
-                <div class="ticket-grid">
-                    <div class="ticket-card">
-                        <div class="ticket-label">子どもたち（高校生以下）</div>
-                        <div class="ticket-price" style="color: #2e7d32;">無料</div>
-                        <div style="font-size: 0.8rem; color: #666; margin-top: 4px;">全員参加大歓迎！</div>
-                    </div>
-                    <div class="ticket-card highlight">
-                        <div class="ticket-label">団体・クラブ保護者様</div>
-                        <div class="ticket-price">2,000<span style="font-size: 1rem;">円</span></div>
-                        <div style="font-size: 0.8rem; color: #2e7d32; font-weight: 700; margin-top: 4px;">通常3,000円より1,000円引</div>
-                    </div>
+                <div class="ticket-card">
+                    <div class="ticket-label">子どもたち（高校生以下）</div>
+                    <div class="ticket-price" style="color: #2e7d32;">無料</div>
+                    <div style="font-size: 0.8rem; color: #666; margin-top: 4px; font-weight: 700;">全員参加大歓迎！</div>
                 </div>
-                <p style="font-size: 0.8rem; color: #ffd880; text-align: center; font-weight: 700;">
-                    ※団体関係者様限定の割引となりますため口外はお控えください。
-                </p>
+                <div class="ticket-card highlight">
+                    <div class="ticket-label">団体・クラブ保護者様</div>
+                    <div class="ticket-price">2,000<span style="font-size: 1rem;">円</span></div>
+                    <div style="font-size: 0.85rem; color: var(--accent-red); font-weight: 800; margin-top: 4px;">通常3,000円より1,000円引</div>
+                </div>
 
-                <!-- 申し込みパターンの明確化 -->
                 <div class="pattern-box">
-                    <div style="color: #fff; font-weight: 800; font-size: 0.95rem; margin-bottom: 12px;">
-                        <i class="fa-solid fa-clipboard-list"></i> お申し込み方法（どちらでも2,000円適用）
+                    <div style="color: var(--primary-blue); font-weight: 900; font-size: 0.95rem; margin-bottom: 12px; text-align: center;">
+                        <i class="fa-solid fa-clipboard-list"></i> 申込方法(どちらも2,000円)
                     </div>
 
                     <div class="pattern-item">
                         <div class="pattern-head">
-                            <span class="pattern-badge">団体申込み</span> 指導者様が子ども分をまとめて申込
+                            <span class="pattern-badge">団体</span> 指導者が子ども分を申込
                         </div>
-                        <p style="font-size: 0.85rem; color: #ddd; margin: 0;">
-                            <strong>保護者様：</strong> 各自フォームより申し込み、備考・紹介者欄に「クラブ名・団体名」をご記入ください。
+                        <p style="font-size: 0.85rem; color: #555; margin: 0; font-weight: 700;">
+                            保護者様は各自フォームより申し込み、備考欄に「クラブ・団体名」をご記入ください。
                         </p>
                     </div>
 
                     <div class="pattern-item">
                         <div class="pattern-head">
-                            <span class="pattern-badge" style="background: var(--sky-blue);">個人申込み</span> クラブ案内を受け各自で申込
+                            <span class="pattern-badge" style="background: var(--tateyama-blue);">個人</span> クラブ案内を受け各自申込
                         </div>
-                        <p style="font-size: 0.85rem; color: #ddd; margin: 0;">
-                            <strong>保護者様：</strong> フォームの同行者欄に「お子様のお名前・学年」を記載ください。親子割が適用されます。
+                        <p style="font-size: 0.85rem; color: #555; margin: 0; font-weight: 700;">
+                            保護者様はフォームの同行者欄に「お子様名・学年」を記載ください。親子割が適用されます。
                         </p>
                     </div>
                 </div>
@@ -966,60 +845,62 @@
         </div>
     </section>
 
-    <!-- Event Details & Booths (リスト＆バッジUI) -->
+    <!-- Event Details & Booths -->
     <section class="bg-ice" id="details">
         <div class="container">
             <div class="reveal">
-                <h2 class="section-title">開催概要 ＆ 出展ブース</h2>
-                <p class="section-subtitle">2026年8月1日(土) 富山県民会館にて開催</p>
+                <h2 class="section-title">開催概要＆出展ブース</h2>
+                <p class="section-subtitle">2026年8月1日(土) 富山県民会館にて</p>
             </div>
 
             <div class="info-wrap reveal">
                 <div class="info-row">
                     <div class="info-label"><i class="fa-solid fa-flag"></i> 行事名称</div>
-                    <div class="info-val" style="font-weight: 800; color: var(--primary-blue);">誇り講演会 誇高MATSURI in 富山</div>
+                    <div class="info-val" style="font-weight: 900;">誇り講演会 誇高MATSURI in 富山</div>
                 </div>
                 <div class="info-row">
                     <div class="info-label"><i class="fa-solid fa-calendar-days"></i> 日時</div>
-                    <div class="info-val">
+                    <div class="info-val" style="font-weight: 700;">
                         <strong style="color: var(--accent-red); font-size: 1.1rem;">2026年8月1日（土）</strong><br>
-                        【開場】13:00 （特別ブース出展あり） / 【講演会】14:00〜16:00
+                        【開場】13:00 （特別ブースあり）<br>
+                        【講演】14:00〜16:00
                     </div>
                 </div>
                 <div class="info-row">
                     <div class="info-label"><i class="fa-solid fa-location-dot"></i> 場所</div>
-                    <div class="info-val">
+                    <div class="info-val" style="font-weight: 700;">
                         <strong>富山県民会館 304号室</strong><br>
-                        <span style="font-size: 0.85rem; color: #666;">（富山市新総曲輪4-18 / 富山駅 徒歩約10分）</span>
+                        <span style="font-size: 0.85rem; color: #666;">（富山駅 徒歩約10分）</span>
                     </div>
                 </div>
                 <div class="info-row">
                     <div class="info-label"><i class="fa-solid fa-ticket"></i> 参加費</div>
-                    <div class="info-val">
-                        大人：3,000円 / 大学生：1,000円 / <strong>高校生以下：無料</strong><br>
-                        <span style="font-size: 0.85rem; color: #d93829; font-weight: 700;">※スポーツクラブ・団体保護者様は優待で 2,000円</span>
+                    <div class="info-val" style="font-weight: 700;">
+                        大人：3,000円 / 大学生：1,000円<br>
+                        <strong>高校生以下：無料</strong><br>
+                        <span style="font-size: 0.85rem; color: var(--accent-red);">※団体・クラブ保護者様は 2,000円</span>
                     </div>
                 </div>
-                <div class="info-row" style="background: #fdfbf7;">
-                    <div class="info-label" style="color: #8c6314;"><i class="fa-solid fa-store"></i> 13:00〜 特別ブース出展</div>
+                <div class="info-row" style="background: #fffcf5;">
+                    <div class="info-label" style="color: #d98818;"><i class="fa-solid fa-store"></i> 13:00〜 特別ブース出展</div>
                     <div class="info-val">
-                        <p style="font-size: 0.85rem; color: #555; margin-bottom: 8px;">
-                            教育・子育て・未来への想いある素敵な方々が出展！<br class="sp-only">ぜひ早めに来て温かい繋がりを楽しんでください。
+                        <p style="font-size: 0.85rem; color: #666; font-weight: 700; margin-bottom: 12px;">
+                            教育や未来への想いある方々が出展！<br>ぜひ色々なご相談をしてください。
                         </p>
                         <div class="booth-grid">
-                            <span class="booth-tag"><i class="fa-solid fa-sun text-gold"></i> リアライフ 様</span>
-                            <span class="booth-tag"><i class="fa-solid fa-lightbulb text-gold"></i> オモロー授業発表会 様</span>
-                            <span class="booth-tag"><i class="fa-solid fa-compass text-gold"></i> 小さな冒険学者 様</span>
-                            <span class="booth-tag"><i class="fa-solid fa-school text-gold"></i> 自由学舎EUREKA 様</span>
-                            <span class="booth-tag" style="background: #eee; border-color: #ccc; color: #555;">など多数！</span>
+                            <!-- ⚙️を✨へ変更 -->
+                            <span class="booth-tag"><i class="fa-solid fa-sparkles"></i> 輝く女性応援プロジェクト・リアライフ 様</span>
+                            <span class="booth-tag"><i class="fa-solid fa-lightbulb"></i> オモロー授業発表会 様</span>
+                            <span class="booth-tag"><i class="fa-solid fa-compass"></i> 小さな冒険学者 様</span>
+                            <span class="booth-tag"><i class="fa-solid fa-school"></i> 自由学舎EUREKA 様</span>
                         </div>
                     </div>
                 </div>
                 <div class="info-row">
                     <div class="info-label"><i class="fa-solid fa-award"></i> 後援 / 主催</div>
-                    <div class="info-val">
+                    <div class="info-val" style="font-size: 0.9rem; font-weight: 700;">
                         【後援】 富山市教育委員会<br>
-                        【主催】 未来志創プロジェクト / 誇高MATSURI実行委員会
+                        【主催】 誇高 MATSURI in 富山 実行委員会
                     </div>
                 </div>
             </div>
@@ -1030,59 +911,49 @@
     <section id="entry" class="cta-section">
         <div class="container">
             <div class="reveal">
-                <h2 class="section-title" style="color: var(--white);">お申し込みの流れ</h2>
-                <p class="section-subtitle" style="color: #b0c8de;">以下の2つのステップへお進みください</p>
+                <h2 class="section-title">お申し込みの流れ</h2>
+                <p class="section-subtitle">以下の2ステップへお進みください</p>
             </div>
 
-            <div class="step-grid">
-                <!-- Step 1 -->
-                <div class="step-card reveal">
-                    <div class="step-num">STEP 1</div>
-                    <div>
-                        <i class="fa-brands fa-line" style="font-size: 2.8rem; color: #06c755; margin-top: 10px;"></i>
-                        <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--primary-blue); margin: 12px 0 8px;">公式オープンチャット参加</h3>
-                        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
-                            最新情報や開場前のブース紹介、熱いメッセージをリアルタイムでお届け！まずはご参加ください。
-                        </p>
-                    </div>
-                    <a href="https://x.gd/kjqK8" target="_blank" rel="noopener noreferrer" class="btn-action btn-line">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i> チャットに参加する
-                    </a>
-                </div>
-
-                <!-- Step 2 -->
-                <div class="step-card reveal">
-                    <div class="step-num">STEP 2</div>
-                    <div>
-                        <i class="fa-solid fa-clipboard-check" style="font-size: 2.8rem; color: var(--tateyama-blue); margin-top: 10px;"></i>
-                        <h3 style="font-size: 1.25rem; font-weight: 800; color: var(--primary-blue); margin: 12px 0 8px;">お申込みフォーム回答</h3>
-                        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">
-                            参加人数の把握と当日円滑なご案内のため、フォーム回答をお願いします。（団体参加の方もご記入ください）
-                        </p>
-                    </div>
-                    <a href="https://forms.gle/8XpxSDHprLDms7ME7" target="_blank" rel="noopener noreferrer" class="btn-action btn-form">
-                        <i class="fa-solid fa-pen-to-square"></i> フォームに回答する
-                    </a>
-                </div>
+            <div class="step-card reveal">
+                <div class="step-num">STEP 1</div>
+                <i class="fa-brands fa-line" style="font-size: 3rem; color: #06c755;"></i>
+                <h3 style="font-size: 1.2rem; font-weight: 900; margin: 10px 0;">公式オープンチャット参加</h3>
+                <p style="font-size: 0.85rem; font-weight: 700; color: #666; margin: 0;">
+                    最新情報や開場前のブース紹介、熱いメッセージをお届け！まずはご参加を。
+                </p>
+                <a href="https://x.gd/kjqK8" target="_blank" rel="noopener noreferrer" class="btn-action btn-line">
+                    <i class="fa-solid fa-arrow-up-right-from-square"></i> チャットに参加する
+                </a>
             </div>
 
-            <div style="margin-top: 35px; text-align: center;" class="reveal">
-                <a href="https://note.com/mirai_shisou/n/ne5816efc7a19" target="_blank" rel="noopener noreferrer" style="color: #ffd880; text-decoration: underline; font-size: 0.95rem; font-weight: 700;">
-                    <i class="fa-solid fa-book-open"></i> 主催者 岡本(けいいち先生)の熱い想いをもっと読む(Note)
+            <div class="step-card reveal">
+                <div class="step-num">STEP 2</div>
+                <i class="fa-solid fa-clipboard-check" style="font-size: 3rem; color: var(--tateyama-blue);"></i>
+                <h3 style="font-size: 1.2rem; font-weight: 900; margin: 10px 0;">お申込みフォーム回答</h3>
+                <p style="font-size: 0.85rem; font-weight: 700; color: #666; margin: 0;">
+                    参加人数の把握のため回答をお願いします。（団体参加の方もご記入ください）
+                </p>
+                <a href="https://forms.gle/8XpxSDHprLDms7ME7" target="_blank" rel="noopener noreferrer" class="btn-action btn-form">
+                    <i class="fa-solid fa-pen-to-square"></i> フォームに回答する
+                </a>
+            </div>
+
+            <div style="margin-top: 32px; text-align: center;" class="reveal">
+                <a href="https://note.com/mirai_shisou/n/ne5816efc7a19" target="_blank" rel="noopener noreferrer" style="color: var(--primary-blue); text-decoration: underline; font-size: 0.95rem; font-weight: 900;">
+                    <i class="fa-solid fa-book-open"></i> 主催者 岡本先生の熱い想い(Note)
                 </a>
             </div>
 
             <!-- Sponsor -->
-            <div class="sponsor-box reveal">
-                <h4 style="font-size: 1.05rem; margin-bottom: 8px;"><i class="fa-solid fa-handshake-angle"></i> ご協賛をお考えの企業様・個人様へ</h4>
-                <p style="font-size: 0.85rem; color: #d0e0f0; margin-bottom: 0;">
-                    子どもたちの未来のために応援いただける協賛スポンサー様（チラシ・ロゴ掲載等）を募集しております。
+            <div class="sponsor-box reveal text-center">
+                <h4 style="font-size: 1.05rem; margin-bottom: 8px; font-weight: 900;"><i class="fa-solid fa-handshake-angle"></i> ご協賛をお考えの企業・個人様へ</h4>
+                <p style="font-size: 0.85rem; font-weight: 700; color: #666; margin-bottom: 0;">
+                    子どもたちの未来のため応援いただける協賛スポンサー様を募集しております。
                 </p>
-                <div class="text-center">
-                    <a href="https://canva.link/pkorz93ldzqt04a" target="_blank" rel="noopener noreferrer" class="btn-sponsor">
-                        ご協賛の詳細を見る <i class="fa-solid fa-chevron-right"></i>
-                    </a>
-                </div>
+                <a href="https://canva.link/pkorz93ldzqt04a" target="_blank" rel="noopener noreferrer" class="btn-sponsor">
+                    ご協賛の詳細を見る <i class="fa-solid fa-chevron-right"></i>
+                </a>
             </div>
         </div>
     </section>
@@ -1090,9 +961,9 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>主催・運営： 未来志創プロジェクト / 誇高MATSURI実行委員会</p>
+            <p>主催： 誇高 MATSURI in 富山 実行委員会</p>
             <p>後援： 富山市教育委員会</p>
-            <p style="margin-top: 15px; font-size: 0.75rem;">&copy; 2026 誇高MATSURI execution committee.</p>
+            <p style="margin-top: 15px; font-size: 0.75rem;">&copy; 2026 誇高 MATSURI in 富山 実行委員会.</p>
         </div>
     </footer>
 
