@@ -4,28 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>誇高MATSURI in 富山 〜富山の誇りを、未来の力に〜 | 2026年8月1日(土)開催</title>
-    <meta name="description" content="2026年8月1日(土)、富山県民会館にて開催。過去を知り、今を見つめ、未来へ志をつなぐ。すべての人に「私が私として生まれて本当によかった」を届ける志教育の講演会。">
+    <meta name="description" content="2026年8月1日(土)、富山県民会館にて開催。なぜ今、富山でこの講演会を主催するのか？過去を知り、今を見つめ、未来へ志をつなぐ「志教育」講演会。">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;700&family=Shippori+Mincho:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@500;700;900&family=Shippori+Mincho:wght@500;700;800&display=swap" rel="stylesheet">
     <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --primary-blue: #133350;
+            --primary-blue: #0f2a4a;
             --tateyama-blue: #1d4e79;
             --sky-blue: #4a8ac2;
             --ice-bg: #f4f8fb;
             --accent-red: #d93829;
             --accent-gold: #c7942e;
+            --gold-gradient: linear-gradient(135deg, #e6bc65 0%, #c7942e 50%, #9a6b1f 100%);
             --text-main: #2b2b2b;
             --text-muted: #556677;
             --white: #ffffff;
-            --section-pad: 80px 20px;
-            --shadow: 0 10px 30px rgba(19, 51, 80, 0.08);
-            --radius: 12px;
+            --section-pad: 100px 20px;
+            --shadow: 0 15px 35px rgba(15, 42, 74, 0.08);
+            --radius: 16px;
         }
 
         * {
@@ -38,7 +39,7 @@
             font-family: 'Noto Sans JP', sans-serif;
             color: var(--text-main);
             background-color: var(--white);
-            line-height: 1.8;
+            line-height: 1.9;
             overflow-x: hidden;
         }
 
@@ -49,7 +50,7 @@
         a {
             text-decoration: none;
             color: inherit;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         img {
@@ -68,104 +69,193 @@
         .text-gold { color: var(--accent-gold); }
         .text-blue { color: var(--tateyama-blue); }
 
-        /* --- Header / Hero Section --- */
+        /* ==========================================
+           Animations & Movements (CSS Keyframes)
+           ========================================== */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+
+        @keyframes pulseGlow {
+            0% { box-shadow: 0 0 0 0 rgba(217, 56, 41, 0.5); }
+            70% { box-shadow: 0 0 0 20px rgba(217, 56, 41, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(217, 56, 41, 0); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* Scroll Animation Classes (Triggered by JS) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* ==========================================
+           Hero Section (立山背景デザインの再現)
+           ========================================== */
         .hero {
             position: relative;
-            background: linear-gradient(135deg, rgba(19, 51, 80, 0.85) 0%, rgba(29, 78, 121, 0.75) 50%, rgba(74, 138, 194, 0.65) 100%),
-                        url('https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1920&q=80') center/cover no-repeat;
-            color: var(--white);
-            padding: 100px 20px 80px;
+            min-height: 95vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(180deg, rgba(15, 42, 74, 0.75) 0%, rgba(29, 78, 121, 0.6) 40%, rgba(255, 255, 255, 0.95) 90%, rgba(255, 255, 255, 1) 100%),
+                        radial-gradient(circle at 50% 20%, rgba(255, 220, 150, 0.25) 0%, transparent 60%),
+                        url('https://images.unsplash.com/photo-1490806843957-31f4c9a91c65?auto=format&fit=crop&w=1920&q=80') center top/cover no-repeat;
+            color: var(--text-main);
+            padding: 120px 20px 80px;
             text-align: center;
             overflow: hidden;
         }
 
-        .hero::before {
+        .hero::after {
             content: "";
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 10%, transparent 10.5%) 0 0 / 50px 50px;
-            opacity: 0.3;
-            animation: rotate 120s linear infinite;
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background: linear-gradient(to bottom, transparent, var(--white));
+            z-index: 1;
         }
 
         .hero-content {
             position: relative;
             z-index: 2;
-            max-width: 860px;
+            max-width: 900px;
             margin: 0 auto;
+            animation: fadeInDown 1.2s ease-out;
         }
 
         .hero-badge {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.15);
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(5px);
-            padding: 6px 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(15, 42, 74, 0.85);
+            color: var(--white);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 8px 24px;
             border-radius: 50px;
             font-size: 0.95rem;
+            font-weight: 700;
             letter-spacing: 0.1em;
             margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            animation: floatSlow 6s ease-in-out infinite;
         }
 
         .hero-catch {
-            font-size: 1.4rem;
-            font-weight: 500;
-            margin-bottom: 20px;
-            line-height: 2;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            font-size: clamp(1.2rem, 3vw, 1.6rem);
+            font-weight: 700;
+            margin-bottom: 25px;
+            line-height: 1.8;
+            color: var(--primary-blue);
+            text-shadow: 0 2px 10px rgba(255,255,255,0.8);
         }
 
         .hero-title {
-            font-size: clamp(2.2rem, 5vw, 3.8rem);
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            margin-bottom: 15px;
-            line-height: 1.3;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.4);
+            font-size: clamp(2.8rem, 7vw, 4.8rem);
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            margin-bottom: 10px;
+            line-height: 1.1;
+            color: var(--primary-blue);
+            text-shadow: 0 4px 15px rgba(255,255,255,0.9);
         }
 
         .hero-subtitle {
-            font-size: clamp(1.1rem, 2.5vw, 1.6rem);
-            font-weight: 500;
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--tateyama-blue);
+        }
+
+        .hero-notice {
+            display: inline-block;
+            background: #fff3e0;
+            border: 2px solid var(--accent-gold);
+            color: #8c6314;
+            padding: 10px 25px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
             margin-bottom: 40px;
-            color: #e0f0ff;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
         .hero-date-box {
-            background: rgba(255, 255, 255, 0.95);
-            color: var(--primary-blue);
-            padding: 25px 30px;
+            background: var(--white);
+            border: 2px solid #e1e8ed;
+            padding: 30px 40px;
             border-radius: var(--radius);
             display: inline-block;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            box-shadow: 0 20px 40px rgba(15, 42, 74, 0.12);
             margin-bottom: 40px;
-            border-bottom: 4px solid var(--accent-red);
-            max-width: 90%;
+            border-top: 6px solid var(--accent-red);
+            max-width: 95%;
+            transition: transform 0.3s ease;
+        }
+
+        .hero-date-box:hover {
+            transform: translateY(-5px);
         }
 
         .hero-date {
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
-            font-weight: 700;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 800;
             line-height: 1.2;
             color: var(--primary-blue);
         }
 
         .hero-date span {
-            font-size: 1.2rem;
+            font-size: 1.3em;
             color: var(--accent-red);
         }
 
         .hero-venue {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 700;
             margin-top: 10px;
             color: var(--text-main);
@@ -177,147 +267,215 @@
             justify-content: center;
             background: linear-gradient(135deg, var(--accent-red) 0%, #b8281a 100%);
             color: var(--white);
-            font-size: 1.25rem;
+            font-size: clamp(1.1rem, 2.5vw, 1.35rem);
             font-weight: 700;
-            padding: 18px 45px;
+            padding: 20px 50px;
             border-radius: 50px;
             box-shadow: 0 10px 25px rgba(217, 56, 41, 0.4);
-            transition: transform 0.3s, box-shadow 0.3s;
+            animation: pulseGlow 2.5s infinite;
         }
 
         .hero-cta-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(217, 56, 41, 0.6);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(217, 56, 41, 0.6);
             color: var(--white);
         }
 
         .hero-cta-btn i {
-            margin-left: 10px;
+            margin-left: 12px;
+            transition: transform 0.3s;
         }
 
-        /* --- Section Common --- */
+        .hero-cta-btn:hover i {
+            transform: translateY(4px);
+        }
+
+        /* ==========================================
+           Section Common
+           ========================================== */
         section {
             padding: var(--section-pad);
+            position: relative;
         }
 
         .section-title {
             text-align: center;
-            font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+            font-size: clamp(1.8rem, 4vw, 2.6rem);
             color: var(--primary-blue);
             margin-bottom: 15px;
+            font-weight: 800;
             position: relative;
-            padding-bottom: 20px;
-        }
-
-        .section-title::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 3px;
-            background: var(--accent-red);
         }
 
         .section-subtitle {
             text-align: center;
-            font-size: 1rem;
+            font-size: 1.05rem;
             color: var(--text-muted);
-            margin-bottom: 50px;
-            letter-spacing: 0.1em;
+            margin-bottom: 60px;
+            letter-spacing: 0.12em;
+            font-weight: 700;
         }
 
-        /* --- Problem & Message Section --- */
         .bg-ice {
             background-color: var(--ice-bg);
+            border-top: 1px solid #e2edf7;
+            border-bottom: 1px solid #e2edf7;
         }
 
-        .message-box {
+        /* ==========================================
+           Why Organize? (岡本の想い・挑戦する社会課題)
+           ========================================== */
+        .passion-container {
             background: var(--white);
-            padding: 40px;
             border-radius: var(--radius);
+            padding: 60px 50px;
             box-shadow: var(--shadow);
-            margin-bottom: 40px;
+            border-left: 6px solid var(--tateyama-blue);
             position: relative;
         }
 
-        .message-box::before {
-            content: "“";
-            font-family: serif;
-            position: absolute;
-            top: 10px;
-            left: 20px;
-            font-size: 5rem;
-            color: rgba(29, 78, 121, 0.08);
-            line-height: 1;
+        .passion-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .passion-title {
+            font-size: clamp(1.4rem, 3.5vw, 2rem);
+            color: var(--primary-blue);
+            line-height: 1.6;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .social-issue-box {
+            background: #fff8f8;
+            border: 1px solid #ffdcdc;
+            border-radius: 12px;
+            padding: 30px;
+            margin: 40px 0;
+        }
+
+        .social-issue-title {
+            color: var(--accent-red);
+            font-weight: 800;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .quote-highlight {
             text-align: center;
-            font-size: clamp(1.3rem, 3vw, 1.8rem);
-            font-weight: 700;
+            font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+            font-weight: 800;
             color: var(--primary-blue);
-            padding: 30px 20px;
+            padding: 40px 20px;
             margin: 40px 0;
-            background: linear-gradient(to right, rgba(29, 78, 121, 0.05), rgba(74, 138, 194, 0.1), rgba(29, 78, 121, 0.05));
-            border-left: 4px solid var(--tateyama-blue);
-            border-right: 4px solid var(--tateyama-blue);
-            border-radius: 8px;
+            background: linear-gradient(135deg, #eff6fc 0%, #e3f0fa 100%);
+            border-radius: 12px;
             line-height: 1.8;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.03);
+            position: relative;
+        }
+
+        .quote-highlight::before, .quote-highlight::after {
+            content: "✨";
+            font-size: 1.5rem;
+            margin: 0 10px;
         }
 
         .lead-text {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             margin-bottom: 25px;
+            color: #334455;
+            line-height: 2;
         }
 
-        /* --- Speaker Section --- */
-        .speaker-card {
+        /* ==========================================
+           Who & What (誰に何を届けたいのか・何が得られるのか)
+           ========================================== */
+        .target-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .target-card {
+            background: var(--white);
+            padding: 35px 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border-top: 5px solid var(--sky-blue);
+            transition: all 0.4s ease;
+        }
+
+        .target-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(15, 42, 74, 0.15);
+        }
+
+        .target-card h3 {
+            font-size: 1.3rem;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
             display: flex;
-            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 2px solid #f0f4f8;
+            padding-bottom: 12px;
+        }
+
+        .target-card h3 i {
+            color: var(--tateyama-blue);
+            font-size: 1.5rem;
+        }
+
+        .target-card p {
+            font-size: 1rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* ==========================================
+           Speaker Section (簡潔版 講師紹介)
+           ========================================== */
+        .speaker-card {
             background: var(--white);
             border-radius: var(--radius);
             overflow: hidden;
             box-shadow: var(--shadow);
             border: 1px solid #e1e8ed;
+            display: flex;
+            flex-wrap: wrap;
         }
 
         .speaker-img-wrap {
             flex: 1 1 350px;
-            min-height: 350px;
-            background: #ddd url('https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
+            min-height: 380px;
+            background: #0f2a4a url('https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
             position: relative;
-        }
-
-        .speaker-img-caption {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
-            color: #fff;
-            padding: 20px;
-            font-size: 0.9rem;
         }
 
         .speaker-info {
             flex: 1 1 450px;
-            padding: 40px;
+            padding: 50px 40px;
         }
 
         .speaker-role {
-            font-size: 0.95rem;
-            color: var(--accent-red);
-            font-weight: 700;
-            margin-bottom: 5px;
+            font-size: 1rem;
+            color: var(--accent-gold);
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: 0.05em;
         }
 
         .speaker-name {
-            font-size: 2rem;
-            font-weight: 700;
+            font-size: 2.2rem;
+            font-weight: 800;
             color: var(--primary-blue);
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             display: flex;
             align-items: baseline;
             gap: 15px;
@@ -327,45 +485,58 @@
             font-size: 1.1rem;
             font-family: 'Noto Sans JP', sans-serif;
             color: var(--text-muted);
-            font-weight: 400;
+            font-weight: 500;
         }
 
-        .speaker-bio {
-            font-size: 0.95rem;
-            line-height: 1.9;
-            color: #444;
-            margin-bottom: 25px;
-        }
-
-        .speaker-achievements {
+        .speaker-summary-box {
             background: var(--ice-bg);
-            padding: 20px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            border-left: 4px solid var(--accent-gold);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--tateyama-blue);
         }
 
-        .speaker-achievements ul {
+        .speaker-summary-box ul {
             list-style: none;
-            padding-left: 0;
+            padding: 0;
         }
 
-        .speaker-achievements li {
-            margin-bottom: 8px;
+        .speaker-summary-box li {
+            margin-bottom: 12px;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.95rem;
+            line-height: 1.7;
         }
 
-        .speaker-achievements li i {
-            color: var(--accent-gold);
-            margin-right: 10px;
+        .speaker-summary-box li i {
+            color: var(--tateyama-blue);
+            margin-top: 4px;
             font-size: 1.1rem;
         }
 
-        /* --- Video Section --- */
+        .speaker-summary-box li:last-child {
+            margin-bottom: 0;
+        }
+
+        .book-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff;
+            border: 1px solid #dcdcdc;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+        }
+
+        /* Video Embed */
         .video-wrapper {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 */
+            padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
             max-width: 800px;
@@ -383,129 +554,183 @@
             border: 0;
         }
 
-        /* --- Kids & Team Section (PR) --- */
-        .kids-pr-box {
-            background: linear-gradient(135deg, #133350 0%, #1d4e79 100%);
+        /* ==========================================
+           Sports Club & Group Section (スポーツクラブ等 団体参加)
+           ========================================== */
+        .club-section-box {
+            background: linear-gradient(135deg, #0f2a4a 0%, #1d4e79 100%);
             color: var(--white);
-            padding: 50px 40px;
+            padding: 60px 40px;
             border-radius: var(--radius);
             box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .club-section-box::before {
+            content: "SPORTS / GROUP";
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            font-size: 6rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.04);
+            pointer-events: none;
+        }
+
+        .club-title {
+            font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ffd880;
+            font-weight: 800;
+        }
+
+        .club-desc {
+            text-align: center;
+            max-width: 750px;
+            margin: 0 auto 40px;
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: #e0f0ff;
+        }
+
+        .price-offer-card {
+            background: var(--white);
+            color: var(--text-main);
+            border-radius: 12px;
+            padding: 35px;
+            margin: 30px auto;
+            max-width: 700px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border: 3px solid var(--accent-gold);
+            position: relative;
+        }
+
+        .offer-tag {
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gold-gradient);
+            color: var(--white);
+            font-weight: 800;
+            padding: 6px 30px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 12px rgba(199, 148, 46, 0.4);
+            white-space: nowrap;
+        }
+
+        .price-flex {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 25px 0 15px;
+            text-align: center;
+        }
+
+        .price-box {
+            flex: 1;
+            min-width: 200px;
+            padding: 15px;
+            background: #f8fbef;
+            border-radius: 8px;
+            border: 1px solid #d4e8c1;
+        }
+
+        .price-box.parent {
+            background: #fffbf0;
+            border: 2px solid var(--accent-gold);
+        }
+
+        .price-box .label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .price-box .val {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+        }
+
+        .price-box.parent .val {
+            color: var(--accent-red);
+        }
+
+        .discount-badge {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            font-weight: 700;
+            font-size: 0.8rem;
+            padding: 3px 10px;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+
+        /* Application rules for groups */
+        .group-rules-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 12px;
+            padding: 30px;
             margin-top: 40px;
         }
 
-        .kids-pr-title {
-            font-size: 1.8rem;
-            text-align: center;
-            margin-bottom: 30px;
-            color: #ffebc2;
-        }
-
-        .kids-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-top: 30px;
-        }
-
-        .kids-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-            padding: 25px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .kids-card h4 {
-            font-size: 1.2rem;
+        .group-rules-title {
             color: #ffd880;
-            margin-bottom: 15px;
+            font-weight: 800;
+            font-size: 1.15rem;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        /* --- Special Offer for Teams / Parents (Secret/Direct Offer) --- */
-        .team-special-box {
-            background: #fffbf0;
-            border: 2px dashed var(--accent-gold);
-            border-radius: var(--radius);
-            padding: 35px;
-            margin: 50px 0;
-            position: relative;
-        }
-
-        .team-special-badge {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--accent-gold);
-            color: var(--white);
-            font-weight: 700;
-            padding: 5px 25px;
-            border-radius: 50px;
-            font-size: 0.95rem;
-            box-shadow: 0 4px 10px rgba(199, 148, 46, 0.3);
-            white-space: nowrap;
-        }
-
-        .team-special-title {
-            text-align: center;
-            font-size: 1.4rem;
-            color: #8c6314;
-            margin-top: 10px;
-            margin-bottom: 20px;
-            font-weight: 700;
-        }
-
-        .team-price-grid {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin: 25px 0;
-        }
-
-        .price-item {
-            background: var(--white);
-            border: 1px solid #f0e2c8;
-            padding: 20px 30px;
+        .rule-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
             border-radius: 8px;
-            text-align: center;
-            min-width: 220px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+            margin-bottom: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .price-item .label {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 5px;
+        .rule-item:last-child {
+            margin-bottom: 0;
         }
 
-        .price-item .price {
-            font-size: 1.8rem;
+        .rule-item .pattern-name {
+            color: #ffd880;
             font-weight: 700;
-            color: var(--accent-red);
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .price-item .discount-note {
-            font-size: 0.8rem;
-            color: #2e7d32;
-            font-weight: 700;
-            background: #e8f5e9;
-            padding: 2px 8px;
-            border-radius: 4px;
-            display: inline-block;
-            margin-top: 5px;
+        .rule-item .pattern-desc {
+            font-size: 0.95rem;
+            color: #ffffff;
+            line-height: 1.7;
         }
 
-        /* --- Event Overview / Info --- */
+        /* ==========================================
+           Event Details & Booths (開催概要・出展ブース)
+           ========================================== */
         .info-table-wrap {
             background: var(--white);
             border-radius: var(--radius);
             box-shadow: var(--shadow);
             padding: 40px;
-            overflow-x: auto;
         }
 
         .info-table {
@@ -514,13 +739,13 @@
         }
 
         .info-table th, .info-table td {
-            padding: 20px;
+            padding: 22px 15px;
             border-bottom: 1px solid #eaeaea;
             text-align: left;
         }
 
         .info-table th {
-            width: 25%;
+            width: 28%;
             font-weight: 700;
             color: var(--primary-blue);
             background: #f8fafc;
@@ -532,54 +757,53 @@
             border-bottom: none;
         }
 
-        .booth-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 10px;
+        .booth-container {
+            background: #fdfbf7;
+            border: 2px solid #f3e8d2;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 15px;
         }
 
-        .booth-tag {
-            background: #e1f0ff;
-            color: var(--tateyama-blue);
-            padding: 6px 14px;
-            border-radius: 50px;
-            font-size: 0.85rem;
+        .booth-lead {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 15px;
             font-weight: 500;
         }
 
-        /* --- Host Profile --- */
-        .host-box {
+        .booth-grid {
             display: flex;
             flex-wrap: wrap;
-            align-items: center;
-            gap: 30px;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .booth-tag {
             background: var(--white);
-            padding: 40px;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
+            border: 1px solid #d8b880;
+            color: #7a5818;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .host-img {
-            flex: 0 0 180px;
-            height: 180px;
-            border-radius: 50%;
-            background: #eee url('https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80') center/cover no-repeat;
-            margin: 0 auto;
-            border: 4px solid var(--ice-bg);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        .booth-tag i {
+            color: var(--accent-gold);
         }
 
-        .host-details {
-            flex: 1 1 300px;
-        }
-
-        /* --- Application Flow & CTAs --- */
+        /* ==========================================
+           Application Flow & CTAs
+           ========================================== */
         .cta-section {
-            background: linear-gradient(135deg, #0f2537 0%, #1b4365 100%);
+            background: linear-gradient(135deg, #0b1e36 0%, #15385e 100%);
             color: var(--white);
             text-align: center;
-            position: relative;
         }
 
         .flow-steps {
@@ -587,46 +811,53 @@
             justify-content: center;
             gap: 30px;
             flex-wrap: wrap;
-            max-width: 800px;
-            margin: 40px auto;
+            max-width: 850px;
+            margin: 50px auto;
         }
 
         .flow-step {
-            flex: 1 1 320px;
+            flex: 1 1 340px;
             background: var(--white);
             color: var(--text-main);
-            padding: 35px 25px;
+            padding: 40px 30px;
             border-radius: var(--radius);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
             position: relative;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            transition: transform 0.3s;
+        }
+
+        .flow-step:hover {
+            transform: translateY(-8px);
         }
 
         .step-num {
             position: absolute;
-            top: -15px;
-            left: 20px;
+            top: -16px;
+            left: 25px;
             background: var(--accent-red);
             color: var(--white);
-            font-weight: 700;
+            font-weight: 800;
             font-size: 0.9rem;
-            padding: 4px 15px;
+            padding: 6px 20px;
             border-radius: 50px;
+            box-shadow: 0 4px 10px rgba(217, 56, 41, 0.3);
         }
 
         .step-title {
-            font-size: 1.3rem;
-            font-weight: 700;
+            font-size: 1.35rem;
+            font-weight: 800;
             color: var(--primary-blue);
-            margin: 15px 0 10px;
+            margin: 20px 0 12px;
         }
 
         .step-desc {
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             color: var(--text-muted);
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+            line-height: 1.7;
         }
 
         .btn-line {
@@ -637,13 +868,16 @@
             background: #06c755;
             color: var(--white);
             font-weight: 700;
-            padding: 15px 20px;
-            border-radius: 8px;
-            transition: opacity 0.3s;
+            font-size: 1.1rem;
+            padding: 16px 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(6, 199, 85, 0.3);
+            transition: all 0.3s;
         }
 
         .btn-line:hover {
-            opacity: 0.9;
+            background: #05b34c;
+            transform: scale(1.02);
             color: var(--white);
         }
 
@@ -655,23 +889,26 @@
             background: var(--primary-blue);
             color: var(--white);
             font-weight: 700;
-            padding: 15px 20px;
-            border-radius: 8px;
-            transition: background 0.3s;
+            font-size: 1.1rem;
+            padding: 16px 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(15, 42, 74, 0.3);
+            transition: all 0.3s;
         }
 
         .btn-form:hover {
             background: var(--tateyama-blue);
+            transform: scale(1.02);
             color: var(--white);
         }
 
-        /* --- Sponsor Section (Sub CTA) --- */
+        /* Sub CTA Sponsor */
         .sponsor-box {
-            max-width: 600px;
-            margin: 60px auto 0;
+            max-width: 650px;
+            margin: 70px auto 0;
             background: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 30px;
+            padding: 35px;
             border-radius: var(--radius);
         }
 
@@ -683,9 +920,9 @@
             background: transparent;
             color: var(--white);
             border: 2px solid var(--white);
-            padding: 12px 30px;
+            padding: 12px 35px;
             border-radius: 50px;
-            font-weight: 500;
+            font-weight: 700;
             font-size: 0.95rem;
             margin-top: 15px;
             transition: all 0.3s;
@@ -696,28 +933,26 @@
             color: var(--primary-blue);
         }
 
-        /* --- Footer --- */
+        /* Footer */
         footer {
-            background: #0a1824;
+            background: #071321;
             color: #8899a8;
             text-align: center;
             padding: 40px 20px;
             font-size: 0.85rem;
         }
 
-        footer p {
-            margin-bottom: 10px;
-        }
+        footer p { margin-bottom: 10px; }
 
-        /* --- Responsive Adjustments --- */
+        /* Responsive */
         @media (max-width: 768px) {
-            .hero { padding: 80px 15px 60px; }
-            .message-box, .speaker-info, .info-table-wrap, .host-box { padding: 25px 20px; }
+            .hero { padding: 100px 15px 60px; min-height: 85vh; }
+            .passion-container, .speaker-info, .info-table-wrap, .club-section-box { padding: 30px 20px; }
             .info-table th, .info-table td { display: block; width: 100%; }
             .info-table th { border-bottom: none; padding-bottom: 5px; }
             .info-table td { padding-top: 5px; padding-bottom: 20px; }
-            .team-price-grid { flex-direction: column; align-items: center; }
-            .price-item { width: 100%; }
+            .price-flex { flex-direction: column; }
+            .price-box { width: 100%; }
         }
     </style>
 </head>
@@ -726,19 +961,29 @@
     <!-- Hero Section -->
     <header class="hero">
         <div class="hero-content">
-            <span class="hero-badge"><i class="fa-solid fa-mountain-sun"></i> 富山市教育委員会 後援</span>
+            <div class="hero-badge"><i class="fa-solid fa-mountain-sun"></i> 富山市教育委員会 後援</div>
+            
             <p class="hero-catch serif">
                 あなたは、今―― 何を“原動力”に、生きていますか？<br>
                 過去を知り、今を見つめ、未来へ志をつなぐ<br>
-                本来の日本人の在り方を思い出す時間を創ります。
+                本来の日本人の在り方を思い出す時間。
             </p>
-            <h1 class="hero-title">誇高MATSURI<br><span style="font-size: 0.6em; font-weight: 500;">in 富山</span></h1>
+
+            <h1 class="hero-title">誇高MATSURI<br><span style="font-size: 0.55em; font-weight: 700;">in 富山</span></h1>
             <p class="hero-subtitle">〜 富山の誇りを、未来の力に 〜</p>
+
+            <!-- 誤解防止の明記 -->
+            <div class="hero-notice">
+                <i class="fa-solid fa-circle-info"></i> 本イベントは屋台等が並ぶお祭りではなく、株式会社誇高が全国へ届ける「志教育」の講演会事業です。
+            </div>
+            <br>
 
             <div class="hero-date-box">
                 <div class="hero-date">2026.<span>8.1</span>(土)</div>
                 <div class="hero-venue"><i class="fa-solid fa-location-dot text-accent"></i> 富山県民会館 304号室</div>
-                <div style="font-size: 0.9rem; color: #666; margin-top: 5px;">【開場】13:00（ブース出展あり） 【講演会】14:00〜16:00</div>
+                <div style="font-size: 0.95rem; color: #555; margin-top: 8px; font-weight: 500;">
+                    【開場】13:00（教育・未来応援ブース出展あり！） 【講演会】14:00〜16:00
+                </div>
             </div>
 
             <div>
@@ -749,77 +994,140 @@
         </div>
     </header>
 
-    <!-- Problem & Vision Section -->
+    <!-- Why Organize? (主催者の想いと社会課題への挑戦) -->
     <section class="bg-ice">
         <div class="container">
-            <h2 class="section-title">開催の想い</h2>
-            <p class="section-subtitle">8/1 富山にとって特別な日に届けたい想い</p>
+            <div class="reveal">
+                <h2 class="section-title">なぜ、今この講演会を主催するのか？</h2>
+                <p class="section-subtitle">社会課題への挑戦と、富山の子どもたち・未来へ届けたい想い</p>
+            </div>
 
-            <div class="message-box">
-                <h3 class="serif text-center" style="font-size: 1.5rem; margin-bottom: 30px; color: var(--tateyama-blue);">
-                    天職である「中学校の先生」を手放してでも、<br>絶対に届けたかった教育があります。
-                </h3>
-                <p class="lead-text">
-                    3年前、自分にとって天職である「中学校の先生」を手放しました。<br>
-                    自分に自信がもてない子どもたち。そしてそんな自分を、自ら傷つけてしまう人。<br>
-                    親の期待に応えたい自分と、自分が生きたい道が異なることで生まれる葛藤。そこから自分らしさを消そうとし、自己否定している人も…。
-                </p>
-                <p class="lead-text">
-                    こうした子どもたちと向き合う中で、子どもたちだけでなく、親御さんも子どもとの想いの違いに、伝わらない想いに、自信を失っているのだと気付きました。
-                </p>
-
-                <div class="quote-highlight serif">
-                    大人が輝けば子どもが輝く<br>
-                    子どもが輝けば未来が輝く
+            <div class="passion-container reveal">
+                <div class="passion-header">
+                    <h3 class="passion-title serif">
+                        天職である「中学校の先生」を手放してでも、<br>何としてでも変えたい現実と、創りたい未来がある。
+                    </h3>
+                    <p style="font-size: 1rem; color: var(--text-muted); font-weight: 700;">
+                        主催：岡本 奎一 （未来志創プロジェクト 代表 / 子育てコーチング）
+                    </p>
                 </div>
 
                 <p class="lead-text">
-                    教員3年目に出会ったこの言葉をカタチにするために10年目まで走り抜けました。<br>
-                    ただ、そのためにはまずは<strong>「大人」が輝くことに向き合いたい</strong>と思い、今があります。
+                    私は3年前、自分にとって天職であった「公立中学校の教員」を手放しました。<br>
+                    10年間の教員生活の中で日々子どもたちと向き合う中で、直面し続けた痛切な現実があります。<br>
+                    それは、<strong>自分に自信が持てない子どもたち</strong>。親の期待に応えたい想いと自分の生きたい道の違いに葛藤し、自分らしさを消して自己否定してしまう姿でした。
+                </p>
+
+                <!-- 社会課題への挑戦 -->
+                <div class="social-issue-box">
+                    <div class="social-issue-title">
+                        <i class="fa-solid fa-triangle-exclamation"></i> 見過ごすことのできない日本の現状
+                    </div>
+                    <p style="font-size: 1rem; color: #333; line-height: 1.8; margin: 0;">
+                        今、日本において<strong>自分で自分の命を絶ってしまう若者（小中高校生）が「過去最多」</strong>となっています。<br>
+                        未来に希望が持てず、自身の存在価値や命の使い道を見出せず、自信を失ってしまっている子どもたちや日本人…。<br>
+                        私はこの現状を、何がなんでも、命をかけてでも変えるきっかけを作りたい。その挑戦の一つが、今回の講演会主催です。
+                    </p>
+                </div>
+
+                <p class="lead-text">
+                    子どもたちと接する中で気づいたのは、子どもたちだけでなく、<strong>親御さんや大人たち自身も、伝わらない想いや自信の喪失に苦しんでいる</strong>ということです。<br>
+                    私が教員3年目に出会い、心が救われた大嶋啓介さんの言葉があります。
+                </p>
+
+                <div class="quote-highlight serif">
+                    大人が輝けば子どもが輝く。<br>
+                    子どもが輝けば未来が輝く。
+                </div>
+
+                <p class="lead-text">
+                    子どもたちの未来を輝かせるためには、まずは<strong>私たち「大人」が自分の仕事や人生に心からの誇りを持って生きる姿</strong>を見せることが不可欠です。<br>
+                    大人が輝く背中を見せられれば、きっと子どもたちは「早くあんな大人になりたい！」と未来に希望を持ってくれるはずです。<br>
+                    そして親御さん自身も、自分を責めることなく、自分の命の価値を心から感じて大切にしてほしい。
                 </p>
                 <p class="lead-text">
-                    そしてなにより、自分で自分の命を絶ってしまう若者（小中高校生）が、過去最多となっている今の日本。<br>
-                    未来に希望が持てず、自信を失ってしまっている子どもたち。なんとか、これを変えるきっかけをつくりたい。そんな想いを一つのカタチにします。
-                </p>
-                <p class="lead-text">
-                    来月、8月1日(土)。富山にとっても特別な意味を持つこの日に、株式会社誇高の小倉瑞季社長を富山へお招きし、「誇高MATSURI in 富山」という講演会を主催します。
+                    一年前の8月、私は小倉瑞季社長の講演会とプログラムを受講し、「すべての日本人が誇り高く生きるための学び」に涙するほどの衝撃を受けました。<br>
+                    <strong>「この想い・教育を、ご縁ある大切な富山の人たち、子どもたち、親御さん、学校の先生方に絶対に届けたい」</strong><br>
+                    その本気の想いで、教員時代の教え子4名とも運営チームを組み、会場200名満員を目指して準備を進めています。ぜひ会場で、共に日本の未来を見つめる時間を過ごしましょう！
                 </p>
             </div>
         </div>
     </section>
 
-    <!-- About the Speaker -->
-    <section id="speaker">
+    <!-- Who & What (誰に何を届けたいのか・何が得られるのか) -->
+    <section>
         <div class="container">
-            <h2 class="section-title">講師プロフィール</h2>
-            <p class="section-subtitle">志教育の師匠であり、日本中を熱狂させる教育家</p>
+            <div class="reveal">
+                <h2 class="section-title">誰に、何が届く時間なのか？</h2>
+                <p class="section-subtitle">単なる聴講ではなく、自分自身の「奥底にある想い」と言葉に出会う場</p>
+            </div>
 
-            <div class="speaker-card">
-                <div class="speaker-img-wrap">
-                    <div class="speaker-img-caption">
-                        <i class="fa-solid fa-camera"></i> すべての人が誇り高く生きる日本を創る
-                    </div>
-                </div>
-                <div class="speaker-info">
-                    <div class="speaker-role">株式会社誇高 代表取締役社長</div>
-                    <h3 class="speaker-name">小倉 瑞季 <span>MIZUKI OGURA</span></h3>
-                    <p class="speaker-bio">
-                        愛媛県生まれ千葉育ち。13歳の頃から「非行や虐待のない社会をつくりたい」と志し、若者の教育・キャリア支援に長年携わる。<br>
-                        これまで年間230本の講演やセミナーを運営し、累計50,000人以上の方に向けメッセージしてきた実績を基に2023年開業。1年で2,560件の有料講座のお申込みを頂く。2023年9月法人化。<br>
-                        TEDやPRESIDENTにも出演をし、2024年に「すべての日本人が誇り高く生きるための教科書」と処女作を発刊。
+            <div class="target-grid">
+                <!-- Card 1 -->
+                <div class="target-card reveal-left">
+                    <h3><i class="fa-solid fa-child-reaching"></i> 今を生きる子どもたちへ</h3>
+                    <p>
+                        ガチガチの目標達成技術ではなく、もっと根本にある「自分という存在（いのち）」の価値に気づきます。<br>
+                        <strong>「私が私として生まれて本当によかった」</strong>と感じ、未来への希望と、勉強やスポーツに向き合う本物の原動力が生まれます。
                     </p>
-                    <div class="speaker-achievements">
+                </div>
+
+                <!-- Card 2 -->
+                <div class="target-card reveal">
+                    <h3><i class="fa-solid fa-house-heart"></i> 子育てに向き合う親御さんへ</h3>
+                    <p>
+                        「子どもたちや未来に残したい誇りは何か？」「大切な人にこれだけは伝えたい想いとは？」<br>
+                        自分自身の温かい想いに見つめ直し、<strong>自分を責めずに自分らしさを大切にできる安心感と誇り</strong>が得られます。
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="target-card reveal-right">
+                    <h3><i class="fa-solid fa-briefcase"></i> 教育者・経営者・社会人へ</h3>
+                    <p>
+                        仕事をする自分を支える根底の想いや、本来の日本人の在り方を思い出します。<br>
+                        <strong>志を定め、人生における命の使い道を明確にする</strong>ことで、周りに火を灯すリーダーとしての軸が確立されます。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About the Speaker (簡潔版 講師紹介) -->
+    <section class="bg-ice" id="speaker">
+        <div class="container">
+            <div class="reveal">
+                <h2 class="section-title">講師紹介</h2>
+                <p class="section-subtitle">若者の教育に命を懸け、全国で多くの人々の人生に火を灯し続ける教育家</p>
+            </div>
+
+            <div class="speaker-card reveal">
+                <div class="speaker-img-wrap"></div>
+                <div class="speaker-info">
+                    <div class="speaker-role">株式会社誇高 代表取締役</div>
+                    <h3 class="speaker-name">小倉 瑞季 <span>Mizuki Ogura</span></h3>
+                    
+                    <div class="speaker-summary-box">
                         <ul>
-                            <li><i class="fa-solid fa-star"></i> Google口コミ200件以上で驚異の「星5.0」獲得</li>
-                            <li><i class="fa-solid fa-heart"></i> 10代から100億企業経営者、70代まで幅広い層が受講</li>
-                            <li><i class="fa-solid fa-sun"></i> 自らの命を絶つことを決めた16歳女子高校生が「生きる」を選択した感動のプログラム</li>
+                            <li><i class="fa-solid fa-check"></i> <strong>13歳での立志：</strong> 千葉で一番荒れた学校生活を経て、「世の中の非行虐待のない社会づくり」をすることを13歳で志す。</li>
+                            <li><i class="fa-solid fa-check"></i> <strong>事前対応の教育へ：</strong> 学生時代は警察官を目指し法学会賞を受賞して卒業。しかし事後対応ではなく、犯罪を犯さずとも人生を選択できる「事前対応の教育」に命を懸けると決意。</li>
+                            <li><i class="fa-solid fa-check"></i> <strong>圧倒的な若手育成実績：</strong> 大手人材教育会社にて数々のタイトルを獲得。若手育成に尽力し、名だたる有名企業の新人賞やMVPを多数輩出。</li>
+                            <li><i class="fa-solid fa-check"></i> <strong>驚異的な反響と広がり：</strong> 年間230本の講演・セミナーを運営し累計5万人以上にメッセージを届ける。2023年独立後、開業わずか1年で2,560件の有料講座申込みを獲得。</li>
                         </ul>
+                    </div>
+
+                    <p style="font-size: 0.95rem; color: #444; line-height: 1.8; margin-bottom: 20px;">
+                        TEDやPRESIDENTにも出演。日本の教育、そして伝統産業を守りながら、世界と時代の誇り統(むす)ぶことをMISSIONに現在全国で活動中。
+                    </p>
+
+                    <div class="book-badge">
+                        <i class="fa-solid fa-book"></i> 著書：「すべての日本人が誇り高く生きるための教科書」（2024年発刊）
                     </div>
                 </div>
             </div>
 
-            <!-- YouTube Video Embed -->
-            <div style="margin-top: 50px; text-align: center;">
+            <!-- YouTube Embed -->
+            <div style="margin-top: 50px; text-align: center;" class="reveal">
                 <h4 class="serif" style="margin-bottom: 15px; color: var(--primary-blue);">▼ 株式会社誇高 紹介動画（ぜひご覧ください）</h4>
                 <div class="video-wrapper">
                     <iframe src="https://www.youtube.com/embed/77uXgxatjCQ?rel=0" title="誇高 紹介動画" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -828,95 +1136,101 @@
         </div>
     </section>
 
-    <!-- Why Kids & Teams (PR Section) -->
-    <section class="bg-ice">
+    <!-- Sports Clubs & Groups Special Section -->
+    <section>
         <div class="container">
-            <div class="kids-pr-box">
-                <h3 class="kids-pr-title serif">
-                    <i class="fa-solid fa-children"></i> 子どもたちにこそ、届けたい。<br>チームやご家族での参加を大歓迎します！
+            <div class="club-section-box reveal">
+                <h3 class="club-title serif">
+                    <i class="fa-solid fa-users-viewfinder"></i> 「スポーツクラブ」などの団体参加のご案内<br>〜 子どもたちの未来のために 〜
                 </h3>
-                <p style="line-height: 1.9; text-align: center; max-width: 800px; margin: 0 auto;">
-                    この講演会は、大人はもちろんのこと、<strong>これからの未来を担う小・中・高校生、大学生の子どもたちにこそ絶大な効果</strong>があります。<br>
-                    ガチガチの目標達成技術ではなく、自分という存在そのもの、「いのち」に目を向ける温かみがあるからです。<br>
-                    大人が自らの仕事や人生に心からの誇りを持って生きる姿を見せることで、子どもたちは<strong>「早くあんな大人になりたい！」</strong>と未来に希望を持ってくれます。
+                <p class="club-desc">
+                    スポーツクラブや各種指導団体、サークル等の仲間と一緒に参加することで、チームの絆が深まり、高い目標へ向かう強い原動力が生まれます。<br>
+                    ご縁ある団体として子どもたちと足を運んでくださる<strong>保護者の皆様へ、感謝と応援の想いを込めて特別割引</strong>をご用意いたしました。
                 </p>
 
-                <div class="kids-grid">
-                    <div class="kids-card">
-                        <h4><i class="fa-solid fa-gift"></i> 高校生以下は「無料」</h4>
-                        <p style="font-size: 0.95rem;">一人でも多くの子どもたちに命の尊さと自分として生きる誇りを感じてほしいから。高校生以下は完全無料でご招待します。</p>
+                <div class="price-offer-card">
+                    <div class="offer-tag">スポーツクラブ・団体参加 特別価格</div>
+                    <div class="price-flex">
+                        <div class="price-box">
+                            <div class="label">子どもたち（高校生以下）</div>
+                            <div class="val" style="color: #2e7d32;">無料</div>
+                            <div style="font-size: 0.8rem; color: #666; margin-top: 5px;">全員参加大歓迎！</div>
+                        </div>
+                        <div class="price-box parent">
+                            <div class="label">団体・クラブ保護者様</div>
+                            <div class="val">2,000<span style="font-size: 1rem;">円</span></div>
+                            <div class="discount-badge">通常3,000円より1,000円割引</div>
+                        </div>
                     </div>
-                    <div class="kids-card">
-                        <h4><i class="fa-solid fa-users"></i> チーム・クラブ参加大歓迎</h4>
-                        <p style="font-size: 0.95rem;">スポーツチームや学校の仲間と一緒に参加することで、チーム全体の絆が深まり、高い志で目標に向かう原動力が生まれます。</p>
-                    </div>
-                    <div class="kids-card">
-                        <h4><i class="fa-solid fa-heart-circle-check"></i> 親子の絆が深まる時間</h4>
-                        <p style="font-size: 0.95rem;">親御さん自身も自分を責めることなく、自分の命の価値を感じるきっかけに。親子で想いを共有する特別な時間になります。</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Team Leader & Parents Special Section -->
-            <div class="team-special-box">
-                <div class="team-special-badge">チーム代表者・保護者の皆様へ 特別ご優待のご案内</div>
-                <h3 class="team-special-title serif">
-                    「子どもたちの未来のために」<br>チーム・クラブ保護者様限定の特別サポート
-                </h3>
-                <p style="text-align: center; font-size: 0.95rem; color: #555; max-width: 700px; margin: 0 auto;">
-                    ご縁あるチーム・クラブとして子どもたちと一緒に足を運んでくださる保護者の皆様へ、主催者より感謝と応援の想いを込めて、<strong>特別な補助（1,000円割引）</strong>をご用意いたしました。<br>
-                    <span style="color: var(--accent-red); font-size: 0.85rem;">※一般公募には存在しないクラブ・チーム保護者様限定の特別割引となりますため、他言・口外はお控えいただけますようお願い申し上げます。</span>
-                </p>
-
-                <div class="team-price-grid">
-                    <div class="price-item">
-                        <div class="label">子どもたち（高校生以下）</div>
-                        <div class="price" style="color: #2e7d32;">無料</div>
-                        <div style="font-size: 0.8rem; color: #666; margin-top: 5px;">チーム全員でぜひご参加ください</div>
-                    </div>
-                    <div class="price-item" style="border-color: var(--accent-gold); background: #fffcf5;">
-                        <div class="label">チーム・クラブ保護者様 特別価格</div>
-                        <div class="price">2,000<span style="font-size: 1rem;">円</span></div>
-                        <div class="discount-note">通常3,000円より1,000円の補助</div>
-                    </div>
+                    <p style="font-size: 0.85rem; color: var(--accent-red); text-align: center; margin-top: 10px; font-weight: 700;">
+                        ※一般公募には存在しない団体保護者様限定の優待割となりますため、口外はお控えください。
+                    </p>
                 </div>
 
-                <div style="background: #fff; padding: 15px 20px; border-radius: 8px; border: 1px solid #e0d0b0; font-size: 0.9rem; text-align: center;">
-                    <strong>【チーム・クラブ関係者様のお申し込み方法】</strong><br>
-                    配信のコメントに「参加希望」とご入力いただくか、「れんらく帳」や代表者へ個別にメッセージにてご連絡ください。<br>
-                    一般の申込みフォームをご利用の場合は、備考・紹介者欄等にチーム名をご記入ください。
+                <!-- 申し込みパターンの明確化 -->
+                <div class="group-rules-box">
+                    <div class="group-rules-title">
+                        <i class="fa-solid fa-clipboard-list"></i> 【チーム・クラブ関係者様のお申し込み方法】
+                    </div>
+
+                    <div class="rule-item">
+                        <div class="pattern-name">
+                            <span style="background: var(--accent-red); color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem;">パターンA</span>
+                            団体（クラブ）としてまとまって参加される場合
+                        </div>
+                        <div class="pattern-desc">
+                            <strong>指導者（代表者）様：</strong> 参加する子どもたち全員分をまとめてお申し込みください。<br>
+                            <strong>保護者の皆様：</strong> 各自でフォームよりお申し込みいただき、備考・紹介者欄に「クラブ名・団体名」をご記入ください。（自動的に2,000円が適用されます）
+                        </div>
+                    </div>
+
+                    <div class="rule-item">
+                        <div class="pattern-name">
+                            <span style="background: var(--sky-blue); color: #fff; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem;">パターンB</span>
+                            クラブの案内を受け、個人（親子）でお申し込みされる場合
+                        </div>
+                        <div class="pattern-desc">
+                            <strong>保護者様が代表してお申し込みください：</strong> フォーム回答時、同行者欄に「お子様のお名前・学年」をご記載ください。これにより<strong>「親子割（保護者様2,000円 / お子様無料）」</strong>が適用となります。
+                        </div>
+                    </div>
+                    
+                    <p style="font-size: 0.85rem; color: #ffd880; margin-top: 15px; text-align: center;">
+                        ※ご不明な点は、配信のコメントや「れんらく帳」、または代表者へ個別にメッセージにてお気軽にご連絡ください。
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Event Overview -->
-    <section id="details">
+    <!-- Event Details & Booths (開催概要・出展ブース) -->
+    <section class="bg-ice" id="details">
         <div class="container">
-            <h2 class="section-title">開催概要</h2>
-            <p class="section-subtitle">誇高MATSURI in 富山</p>
+            <div class="reveal">
+                <h2 class="section-title">開催概要 ＆ 出展ブース</h2>
+                <p class="section-subtitle">2026年8月1日(土) 富山県民会館にて開催</p>
+            </div>
 
-            <div class="info-table-wrap">
+            <div class="info-table-wrap reveal">
                 <table class="info-table">
                     <tbody>
                         <tr>
                             <th>行事名称</th>
-                            <td class="serif" style="font-weight: 700; font-size: 1.2rem; color: var(--primary-blue);">
+                            <td class="serif" style="font-weight: 800; font-size: 1.25rem; color: var(--primary-blue);">
                                 誇高MATSURI in 富山 〜富山の誇りを、未来の力に〜
                             </td>
                         </tr>
                         <tr>
                             <th>日時</th>
                             <td>
-                                <strong style="font-size: 1.2rem; color: var(--accent-red);">2026年8月1日（土）</strong><br>
-                                <strong>開場：13:00</strong> （教育・子育て応援ブース出展あり！）<br>
-                                <strong>講演会：14:00〜16:00</strong>
+                                <strong style="font-size: 1.25rem; color: var(--accent-red);">2026年8月1日（土）</strong><br>
+                                <strong>【開場】 13:00</strong> （教育・未来応援ブース出展あり）<br>
+                                <strong>【講演会】 14:00〜16:00</strong>
                             </td>
                         </tr>
                         <tr>
                             <th>場所</th>
                             <td>
-                                <strong>富山県民会館 304号室</strong><br>
+                                <strong style="font-size: 1.1rem;">富山県民会館 304号室</strong><br>
                                 <span style="font-size: 0.9rem; color: #666;">（富山県富山市新総曲輪4-18 / 富山駅より徒歩約10分）</span>
                             </td>
                         </tr>
@@ -926,30 +1240,35 @@
                                 <strong>大人（大学院生含む）： 3,000円</strong><br>
                                 <strong>大学生： 1,000円</strong><br>
                                 <strong>高校生以下： 無料</strong><br>
-                                <span style="font-size: 0.85rem; color: #666;">※当日会場にてお支払いいただくか、フォーム内の案内に従ってお手続きください。</span>
+                                <span style="font-size: 0.85rem; color: #666;">※スポーツクラブ・各種団体関係者の保護者様は優待適用で <strong>2,000円</strong></span>
                             </td>
                         </tr>
                         <tr>
                             <th>13:00〜 特別ブース出展</th>
                             <td>
-                                講演会前の13時から、教育や子育て、子どもたちの夢を応援する素敵な仲間たちのブースが出展します。ぜひ早めにご来場いただき、温かい繋がりを楽しんでください。<br>
-                                <div class="booth-list">
-                                    <span class="booth-tag">✨ 輝く女性を応援する団体</span>
-                                    <span class="booth-tag">🚀 夢を応援する団体</span>
-                                    <span class="booth-tag">⛺ 野外教育を通じて可能性を引き出す会社</span>
-                                    <span class="booth-tag">📚 素敵な授業を展開する教育イベント主催者</span>
+                                <div class="booth-container">
+                                    <div class="booth-lead">
+                                        当日は13:00の開場より、教育や子育て、子どもたちの未来、親御さんのサポートなど、熱い想いをもった素敵な方々がブース出展を行います！ぜひ早めにご来場いただき、いろいろな相談や温かい繋がりを楽しんでください。
+                                    </div>
+                                    <div class="booth-grid">
+                                        <span class="booth-tag"><i class="fa-solid fa-sun"></i> 輝く女性応援プロジェクト「リアライフ」様</span>
+                                        <span class="booth-tag"><i class="fa-solid fa-lightbulb"></i> オモロー授業発表会 様</span>
+                                        <span class="booth-tag"><i class="fa-solid fa-compass"></i> 小さな冒険学者 様</span>
+                                        <span class="booth-tag"><i class="fa-solid fa-school"></i> 自由学舎EUREKA 様</span>
+                                        <span class="booth-tag" style="background: #eee; border-color: #ccc;">など多数予定！</span>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
                         <tr>
                             <th>後援</th>
-                            <td><strong>富山市教育委員会</strong></td>
+                            <td><strong style="font-size: 1.1rem; color: var(--primary-blue);">富山市教育委員会</strong></td>
                         </tr>
                         <tr>
                             <th>主催・運営</th>
                             <td>
                                 <strong>未来志創プロジェクト / 誇高MATSURI in 富山 実行委員会</strong><br>
-                                代表： 岡本 奎一（元 富山市公立中学校教諭）
+                                代表： 岡本 奎一 （元 富山市公立中学校教諭 / 子育てコーチング）
                             </td>
                         </tr>
                     </tbody>
@@ -958,58 +1277,38 @@
         </div>
     </section>
 
-    <!-- Host Message -->
-    <section class="bg-ice">
-        <div class="container">
-            <h2 class="section-title">主催者メッセージ</h2>
-            <p class="section-subtitle">子どもたちのために、自分たちのために、未来のために</p>
-
-            <div class="host-box">
-                <div class="host-img"></div>
-                <div class="host-details">
-                    <h3 class="serif" style="font-size: 1.4rem; color: var(--primary-blue); margin-bottom: 10px;">
-                        岡本 奎一 <span style="font-size: 0.9rem; font-family: 'Noto Sans JP'; color: #666;">（子育てコーチング / 未来志創プロジェクト 代表）</span>
-                    </h3>
-                    <p style="font-size: 0.95rem; line-height: 1.8; color: #444;">
-                        元富山市公立中学校教諭。10年間の教員生活の中で、子どもたちの自信と誇りを育む「志教育」の重要性を痛感し、独立。現在は個性特性分析を活用した家族コミュニケーション支援や、地域ユース野球クラブの代表など、多岐にわたる教育活動を展開中。<br><br>
-                        「大人が輝けば子どもが輝く。子どもが輝けば未来が輝く。」<br>
-                        この信条を胸に、教員時代の教え子4名とも運営チームを組み、会場200名満員を目指して人生をかけて準備しています。8月1日、会場でお会いできるのを心より楽しみにしています！
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- Entry / CTA Flow -->
     <section id="entry" class="cta-section">
         <div class="container">
-            <h2 class="section-title" style="color: var(--white);">お申し込みの流れ</h2>
-            <p class="section-subtitle" style="color: #b0c8de;">ご参加にあたり、以下の2つのステップへお進みください</p>
+            <div class="reveal">
+                <h2 class="section-title" style="color: var(--white);">お申し込みの流れ</h2>
+                <p class="section-subtitle" style="color: #b0c8de;">ご参加にあたり、以下の2つのステップへお進みください</p>
+            </div>
 
             <div class="flow-steps">
                 <!-- Step 1 -->
-                <div class="flow-step">
+                <div class="flow-step reveal-left">
                     <div class="step-num">STEP 1</div>
                     <div>
-                        <i class="fa-solid fa-comments text-accent" style="font-size: 2.5rem; margin-top: 10px;"></i>
+                        <i class="fa-brands fa-line text-accent" style="font-size: 3rem; margin-top: 10px; color: #06c755;"></i>
                         <h3 class="step-title">公式オープンチャットへ参加</h3>
                         <p class="step-desc">
-                            当日の最新情報や、開場前のブース紹介、登壇者・主催者からの熱いメッセージをリアルタイムでお届けします！まずはご参加ください。
+                            当日の最新情報、開場前のブース紹介、登壇者・主催者からの熱いメッセージをリアルタイムでお届けします！まずはご参加ください。
                         </p>
                     </div>
                     <a href="https://x.gd/kjqK8" target="_blank" rel="noopener noreferrer" class="btn-line">
-                        <i class="fa-solid fa-arrow-up-right-from-square"></i> 公式LINEオープンチャットへ
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> 公式オープンチャットへ
                     </a>
                 </div>
 
                 <!-- Step 2 -->
-                <div class="flow-step">
+                <div class="flow-step reveal-right">
                     <div class="step-num">STEP 2</div>
                     <div>
-                        <i class="fa-solid fa-clipboard-check text-blue" style="font-size: 2.5rem; margin-top: 10px;"></i>
+                        <i class="fa-solid fa-clipboard-check text-blue" style="font-size: 3rem; margin-top: 10px;"></i>
                         <h3 class="step-title">お申込みフォームに回答</h3>
                         <p class="step-desc">
-                            参加人数の把握および当日円滑なご案内のため、申込みフォームへのご回答をお願いいたします。（チーム参加の方もご記入ください）
+                            参加人数の把握および当日円滑なご案内のため、申込みフォームへのご回答をお願いいたします。（団体・クラブ参加の方もご記入ください）
                         </p>
                     </div>
                     <a href="https://forms.gle/8XpxSDHprLDms7ME7" target="_blank" rel="noopener noreferrer" class="btn-form">
@@ -1019,17 +1318,17 @@
             </div>
 
             <!-- Note link -->
-            <div style="margin-top: 40px;">
-                <a href="https://note.com/mirai_shisou/n/ne5816efc7a19" target="_blank" rel="noopener noreferrer" style="color: #ffd880; text-decoration: underline; font-size: 0.95rem;">
+            <div style="margin-top: 40px;" class="reveal">
+                <a href="https://note.com/mirai_shisou/n/ne5816efc7a19" target="_blank" rel="noopener noreferrer" style="color: #ffd880; text-decoration: underline; font-size: 1rem; font-weight: 700;">
                     <i class="fa-solid fa-book-open"></i> 主催者 岡本(けいいち先生)の熱い想いをもっと読む（Note記事へ）
                 </a>
             </div>
 
             <!-- Sponsor Sub CTA -->
-            <div class="sponsor-box">
-                <h4 style="font-size: 1.1rem; margin-bottom: 10px;"><i class="fa-solid fa-handshake-angle"></i> ご協賛・応援をお考えの企業様・個人様へ</h4>
-                <p style="font-size: 0.85rem; color: #d0e0f0; line-height: 1.6;">
-                    子どもたちの未来のために、本講演会を応援していただける協賛スポンサー様（チラシ配布、当日パンフレット・ロゴ掲載など）を募集しております。少しでもお力を貸していただける方は、下記より詳細をご確認ください。
+            <div class="sponsor-box reveal">
+                <h4 style="font-size: 1.15rem; margin-bottom: 10px;"><i class="fa-solid fa-handshake-angle"></i> ご協賛・応援をお考えの企業様・個人様へ</h4>
+                <p style="font-size: 0.9rem; color: #d0e0f0; line-height: 1.7;">
+                    富山の子どもたちの未来のために、本講演会を応援していただける協賛スポンサー様（チラシ配布、当日パンフレット・ロゴ掲載など）を募集しております。少しでもお力を貸していただける方は、下記より詳細をご確認ください。
                 </p>
                 <a href="https://canva.link/pkorz93ldzqt04a" target="_blank" rel="noopener noreferrer" class="btn-sponsor">
                     ご協賛についての詳細を見る <i class="fa-solid fa-chevron-right"></i>
@@ -1047,5 +1346,30 @@
         </div>
     </footer>
 
+    <!-- Scroll Animation JavaScript -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const reveals = document.querySelectorAll(".reveal, .reveal-left, .reveal-right");
+            
+            const observerOptions = {
+                root: null,
+                rootMargin: "0px",
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("active");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            reveals.forEach(reveal => {
+                observer.observe(reveal);
+            });
+        });
+    </script>
 </body>
 </html>
